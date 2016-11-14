@@ -869,7 +869,7 @@
 <AutomaticDrawing  data="true" />
 <extraparam>
 <iso value="in connect()" />
-<iso value="in configure(int serial)" />
+<iso value="in configure(int QR_id)" />
 <iso value="in disconnect()" />
 <iso value="in new_request()" />
 <iso value="in stream_video_request()" />
@@ -882,7 +882,7 @@
 <isd value="in receive_email(Email email)" />
 <oso value="out send_video(Video video)" />
 <oso value="out send_email(Email email)" />
-<FIFOType asynchronous="true" size="1" blocking="false" private="true" broadcast="false" lossy="false" />
+<FIFOType asynchronous="false" size="1" blocking="false" private="true" broadcast="false" lossy="false" />
 </extraparam>
 </CONNECTOR>
 <CONNECTOR type="5002" id="540" >
@@ -1205,7 +1205,7 @@
 <CryptoBlock value="false" />
 <Attribute access="0" id="video" value="" type="5" typeOther="Video" />
 <Attribute access="0" id="email" value="" type="5" typeOther="Email" />
-<Attribute access="0" id="serial" value="15976" type="8" typeOther="" />
+<Attribute access="0" id="serial" value="1" type="8" typeOther="" />
 <Signal value="out configure(int serial)" />
 <Signal value="out disconnect()" />
 <Signal value="in receive_video(Video video)" />
@@ -1287,7 +1287,7 @@
 <extraparam>
 <CryptoBlock value="false" />
 <Attribute access="0" id="light_value" value="" type="8" typeOther="" />
-<Attribute access="0" id="threashold" value="10" type="8" typeOther="" />
+<Attribute access="0" id="threashold" value="50" type="8" typeOther="" />
 <Signal value="out enable_LEDs()" />
 <Signal value="in light_sensor(int light_value)" />
 </extraparam>
@@ -1409,14 +1409,14 @@
 <CryptoBlock value="false" />
 <Attribute access="0" id="configuration_status" value="false" type="4" typeOther="" />
 <Attribute access="0" id="connection_status" value="false" type="4" typeOther="" />
-<Attribute access="0" id="serial" value="15976" type="8" typeOther="" />
+<Attribute access="0" id="serial" value="1" type="8" typeOther="" />
 <Attribute access="0" id="frame" value="" type="5" typeOther="Image" />
 <Attribute access="0" id="QR_id" value="" type="8" typeOther="" />
 <Attribute access="0" id="video" value="" type="5" typeOther="Video" />
 <Attribute access="0" id="email" value="" type="5" typeOther="Email" />
 <Signal value="in receive_video_from_storage(Video video)" />
 <Signal value="in connect()" />
-<Signal value="in configure(int serial)" />
+<Signal value="in configure(int QR_id)" />
 <Signal value="in disconnect()" />
 <Signal value="in motion_detected()" />
 <Signal value="in stream_video_request()" />
@@ -2520,6 +2520,34 @@
 </AVATARStateMachineDiagramPanel>
 
 <AVATARStateMachineDiagramPanel name="MotionDetection" minX="10" maxX="2500" minY="10" maxY="1500" >
+<CONNECTOR type="5102" id="2840" >
+<cdparam x="192" y="100" />
+<sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<infoparam name="connector" value="null" />
+<TGConnectingPoint num="0" id="2841" />
+<P1  x="192" y="100" id="2608" />
+<P2  x="192" y="134" id="2584" />
+<AutomaticDrawing  data="true" />
+</CONNECTOR><SUBCOMPONENT type="-1" id="2842" >
+<father id="2840" num="0" />
+<cdparam x="192" y="140" />
+<sizeparam width="10" height="15" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
+<hidden value="false" />
+<cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
+<infoparam name="List of all parameters of an Avatar SMD transition" value="" />
+<TGConnectingPoint num="0" id="2843" />
+<TGConnectingPoint num="1" id="2844" />
+<TGConnectingPoint num="2" id="2845" />
+<TGConnectingPoint num="3" id="2846" />
+<extraparam>
+<guard value="[ ]" />
+<afterMin value="" />
+<afterMax value="" />
+<computeMin value="" />
+<computeMax value="" />
+</extraparam>
+</SUBCOMPONENT>
+
 <CONNECTOR type="5102" id="2740" >
 <cdparam x="189" y="20" />
 <sizeparam width="0" height="0" minWidth="0" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
@@ -4031,7 +4059,7 @@
 <sizeparam width="121" height="20" minWidth="30" minHeight="0" maxWidth="2000" maxHeight="2000" minDesiredWidth="0" minDesiredHeight="0" />
 <hidden value="false" />
 <cdrectangleparam minX="10" maxX="2500" minY="10" maxY="1500" />
-<infoparam name="Receive signal" value="configure(serial)" />
+<infoparam name="Receive signal" value="configure(QR_id)" />
 <TGConnectingPoint num="0" id="1467" />
 <TGConnectingPoint num="1" id="1468" />
 <TGConnectingPoint num="2" id="1469" />
