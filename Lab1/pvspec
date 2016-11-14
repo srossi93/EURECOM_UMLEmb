@@ -1,0 +1,350 @@
+
+
+(* Generated ProVerif specification *)
+
+(* Boolean return types *)
+const TRUE: bitstring [data].
+const FALSE: bitstring [data].
+
+(* Functions data *)
+const UNKNOWN: bitstring [data].
+
+(* Public key cryptography *)
+fun pk (bitstring): bitstring.
+fun aencrypt (bitstring, bitstring): bitstring.
+reduc forall x: bitstring, y: bitstring; adecrypt (aencrypt (x, pk (y)), y) = x.
+fun sign (bitstring, bitstring): bitstring.
+fun verifySign (bitstring, bitstring, bitstring): bitstring
+	reduc forall m: bitstring, sk: bitstring; verifySign (m, sign (m, sk), pk (sk)) = TRUE
+	      otherwise forall m: bitstring, m2: bitstring, ppk: bitstring; verifySign (m, m2, ppk) = FALSE.
+
+(* Certificates *)
+fun cert (bitstring, bitstring): bitstring.
+fun verifyCert (bitstring, bitstring): bitstring
+	reduc forall epk: bitstring, sk: bitstring; verifyCert (cert (epk, sign (epk, sk)), pk (sk)) = TRUE
+	      otherwise forall m: bitstring, ppk: bitstring; verifyCert (m, ppk) = FALSE.
+reduc forall epk: bitstring, sk: bitstring; getpk (cert (epk, sign (epk,sk))) = epk.
+
+(* Symmetric key cryptography *)
+fun sencrypt (bitstring, bitstring): bitstring.
+reduc forall x: bitstring, k: bitstring; sdecrypt (sencrypt (x, k), k) = x.
+
+(* MAC *)
+fun MAC (bitstring, bitstring): bitstring.
+fun verifyMAC (bitstring, bitstring, bitstring): bitstring
+	reduc forall m: bitstring, k: bitstring; verifyMAC (m, k, MAC (m, k)) = TRUE
+	      otherwise forall m: bitstring, m2: bitstring, k: bitstring; verifyMAC (m, k, m2) = FALSE.
+
+(* HASH *)
+fun hash (bitstring): bitstring.
+
+(* Channel *)
+free ch: channel.
+fun privChEnc__FN_ACKFN_ACK (bitstring): bitstring [private].
+reduc forall x: bitstring; privChDec__FN_ACKFN_ACK (privChEnc__FN_ACKFN_ACK (x)) = x [private].
+fun privChEnc__FN_CONFN_CON (bitstring): bitstring [private].
+reduc forall x: bitstring; privChDec__FN_CONFN_CON (privChEnc__FN_CONFN_CON (x)) = x [private].
+fun privChEnc__successsuccess (bitstring): bitstring [private].
+reduc forall x: bitstring; privChDec__successsuccess (privChEnc__successsuccess (x)) = x [private].
+fun privChEnc__failurefailure (bitstring): bitstring [private].
+reduc forall x: bitstring; privChDec__failurefailure (privChEnc__failurefailure (x)) = x [private].
+fun privChEnc__startINstartIN (bitstring): bitstring [private].
+reduc forall x: bitstring; privChDec__startINstartIN (privChEnc__startINstartIN (x)) = x [private].
+
+(* Control Channel *)
+free chControl: channel.
+fun chControlEnc (bitstring): bitstring [private].
+reduc forall x: bitstring; chControlDec (chControlEnc (x)) = x [private].
+
+(* Basic Peano Arithmetic *)
+const O: bitstring [data].
+fun N (bitstring): bitstring.
+free call__FANS__0: bitstring [private].
+free call__Aircraft__1: bitstring [private].
+free call__Aircraft__2: bitstring [private].
+free call__Aircraft__0: bitstring [private].
+free call__GroundFacility__1: bitstring [private].
+free call__GroundFacility__0: bitstring [private].
+free call__Testbench__1: bitstring [private].
+free call__Testbench__0: bitstring [private].
+free call__Timer__ATST1__2: bitstring [private].
+free call__Timer__ATST1__1: bitstring [private].
+free call__Timer__ATST1__0: bitstring [private].
+
+(* Constants *)
+
+(* Secrecy Assumptions *)
+
+(* Queries Secret *)
+
+(* Queries Event *)
+query event(enteringState__Aircraft__WaitActivation()).
+event enteringState__Aircraft__WaitActivation().
+query event(enteringState__Aircraft__SendCon()).
+event enteringState__Aircraft__SendCon().
+query event(enteringState__Aircraft__choice__0()).
+event enteringState__Aircraft__choice__0().
+query event(enteringState__Aircraft__NotificationFail()).
+event enteringState__Aircraft__NotificationFail().
+query event(enteringState__Aircraft__WaitAck()).
+event enteringState__Aircraft__WaitAck().
+query event(enteringState__GroundFacility__WaitForCon()).
+event enteringState__GroundFacility__WaitForCon().
+query event(enteringState__GroundFacility__Msg_received()).
+event enteringState__GroundFacility__Msg_received().
+query event(enteringState__Testbench__TB_start()).
+event enteringState__Testbench__TB_start().
+query event(enteringState__Testbench__TB_waitResult()).
+event enteringState__Testbench__TB_waitResult().
+query event(enteringState__Timer__ATST1__wait4set()).
+event enteringState__Timer__ATST1__wait4set().
+query event(enteringState__Timer__ATST1__wait4expire()).
+event enteringState__Timer__ATST1__wait4expire().
+
+(* Authenticity *)
+
+let FANS__start (sessionID: bitstring) =
+	in (chControl, strong__FANS__01: bitstring);
+	out (chControl, chControlEnc ((sessionID, call__FANS__0, strong__FANS__01))).
+
+let FANS__0 (sessionID: bitstring) =
+	new strong__FANS__02: bitstring;
+	out (chControl, strong__FANS__02);
+	in (chControl, chControlData: bitstring);
+	let (=sessionID, =call__FANS__0, =strong__FANS__02) = chControlDec (chControlData) in
+	0.
+
+let Aircraft__start (sessionID: bitstring) =
+	new Aircraft__transmissions: bitstring;
+	new Aircraft____timerValue: bitstring;
+	in (chControl, strong__Aircraft__03: bitstring);
+	out (chControl, chControlEnc ((sessionID, call__Aircraft__0, strong__Aircraft__03, Aircraft__transmissions, Aircraft____timerValue))).
+
+let Aircraft__1 (sessionID: bitstring) =
+	new strong__Aircraft__14: bitstring;
+	out (chControl, strong__Aircraft__14);
+	in (chControl, chControlData: bitstring);
+	let (=sessionID, =call__Aircraft__1, =strong__Aircraft__14, Aircraft__transmissions__1: bitstring, Aircraft____timerValue__1: bitstring) = chControlDec (chControlData) in
+	event enteringState__Aircraft__WaitActivation();
+	in (ch, privChData6: bitstring);
+	let data__5: bitstring = privChDec__startINstartIN (privChData6) in
+	in (chControl, strong__Aircraft__27: bitstring);
+	out (chControl, chControlEnc ((sessionID, call__Aircraft__2, strong__Aircraft__27, Aircraft__transmissions__1, Aircraft____timerValue__1))).
+
+let Aircraft__2 (sessionID: bitstring) =
+	new strong__Aircraft__28: bitstring;
+	out (chControl, strong__Aircraft__28);
+	in (chControl, chControlData: bitstring);
+	let (=sessionID, =call__Aircraft__2, =strong__Aircraft__28, Aircraft__transmissions__1: bitstring, Aircraft____timerValue__1: bitstring) = chControlDec (chControlData) in
+	event enteringState__Aircraft__SendCon();
+	let Aircraft__transmissions__2: bitstring = N(Aircraft__transmissions__1) in
+	event enteringState__Aircraft__choice__0();
+	if not (Aircraft__transmissions__2 = N(N(N(N(O))))) then (
+		new data__9: bitstring;
+		out (ch, privChEnc__FN_CONFN_CON (data__9));
+		let Aircraft____timerValue__2: bitstring = N(N(N(N(N(N(N(N(N(N(O)))))))))) in
+		out (ch, Aircraft____timerValue__2);
+		event enteringState__Aircraft__WaitAck();
+		new choice__WaitAck__0: bitstring;
+		out (ch, choice__WaitAck__0);
+		in (ch, choice__WaitAck: bitstring);
+		if choice__WaitAck = choice__WaitAck__0 then (
+			in (ch, privChData11: bitstring);
+			let data__10: bitstring = privChDec__FN_ACKFN_ACK (privChData11) in
+			new data__12: bitstring;
+			out (ch, data__12);
+			new data__13: bitstring;
+			out (ch, privChEnc__successsuccess (data__13));
+			let Aircraft__transmissions__3: bitstring = O in
+			in (chControl, strong__Aircraft__114: bitstring);
+			out (chControl, chControlEnc ((sessionID, call__Aircraft__1, strong__Aircraft__114, Aircraft__transmissions__3, Aircraft____timerValue__2))))
+		else
+			in (ch, data__15: bitstring);
+			in (chControl, strong__Aircraft__216: bitstring);
+			out (chControl, chControlEnc ((sessionID, call__Aircraft__2, strong__Aircraft__216, Aircraft__transmissions__2, Aircraft____timerValue__2))))
+	else
+		event enteringState__Aircraft__NotificationFail();
+		new data__17: bitstring;
+		out (ch, privChEnc__failurefailure (data__17));
+		let Aircraft__transmissions__3: bitstring = O in
+		in (chControl, strong__Aircraft__118: bitstring);
+		out (chControl, chControlEnc ((sessionID, call__Aircraft__1, strong__Aircraft__118, Aircraft__transmissions__3, Aircraft____timerValue__1))).
+
+let Aircraft__0 (sessionID: bitstring) =
+	new strong__Aircraft__019: bitstring;
+	out (chControl, strong__Aircraft__019);
+	in (chControl, chControlData: bitstring);
+	let (=sessionID, =call__Aircraft__0, =strong__Aircraft__019, Aircraft__transmissions__1: bitstring, Aircraft____timerValue__1: bitstring) = chControlDec (chControlData) in
+	in (chControl, strong__Aircraft__120: bitstring);
+	out (chControl, chControlEnc ((sessionID, call__Aircraft__1, strong__Aircraft__120, Aircraft__transmissions__1, Aircraft____timerValue__1))).
+
+let GroundFacility__start (sessionID: bitstring) =
+	in (chControl, strong__GroundFacility__021: bitstring);
+	out (chControl, chControlEnc ((sessionID, call__GroundFacility__0, strong__GroundFacility__021))).
+
+let GroundFacility__1 (sessionID: bitstring) =
+	new strong__GroundFacility__122: bitstring;
+	out (chControl, strong__GroundFacility__122);
+	in (chControl, chControlData: bitstring);
+	let (=sessionID, =call__GroundFacility__1, =strong__GroundFacility__122) = chControlDec (chControlData) in
+	event enteringState__GroundFacility__WaitForCon();
+	in (ch, privChData24: bitstring);
+	let data__23: bitstring = privChDec__FN_CONFN_CON (privChData24) in
+	event enteringState__GroundFacility__Msg_received();
+	new choice__Msg_received__0: bitstring;
+	out (ch, choice__Msg_received__0);
+	in (ch, choice__Msg_received: bitstring);
+	if choice__Msg_received = choice__Msg_received__0 then (
+		in (chControl, strong__GroundFacility__125: bitstring);
+		out (chControl, chControlEnc ((sessionID, call__GroundFacility__1, strong__GroundFacility__125))))
+	else
+		new data__26: bitstring;
+		out (ch, privChEnc__FN_ACKFN_ACK (data__26));
+		in (chControl, strong__GroundFacility__127: bitstring);
+		out (chControl, chControlEnc ((sessionID, call__GroundFacility__1, strong__GroundFacility__127))).
+
+let GroundFacility__0 (sessionID: bitstring) =
+	new strong__GroundFacility__028: bitstring;
+	out (chControl, strong__GroundFacility__028);
+	in (chControl, chControlData: bitstring);
+	let (=sessionID, =call__GroundFacility__0, =strong__GroundFacility__028) = chControlDec (chControlData) in
+	in (chControl, strong__GroundFacility__129: bitstring);
+	out (chControl, chControlEnc ((sessionID, call__GroundFacility__1, strong__GroundFacility__129))).
+
+let Testbench__start (sessionID: bitstring) =
+	in (chControl, strong__Testbench__030: bitstring);
+	out (chControl, chControlEnc ((sessionID, call__Testbench__0, strong__Testbench__030))).
+
+let Testbench__1 (sessionID: bitstring) =
+	new strong__Testbench__131: bitstring;
+	out (chControl, strong__Testbench__131);
+	in (chControl, chControlData: bitstring);
+	let (=sessionID, =call__Testbench__1, =strong__Testbench__131) = chControlDec (chControlData) in
+	event enteringState__Testbench__TB_start();
+	new data__32: bitstring;
+	out (ch, privChEnc__startINstartIN (data__32));
+	event enteringState__Testbench__TB_waitResult();
+	new choice__TB_waitResult__0: bitstring;
+	out (ch, choice__TB_waitResult__0);
+	in (ch, choice__TB_waitResult: bitstring);
+	if choice__TB_waitResult = choice__TB_waitResult__0 then (
+		in (ch, privChData34: bitstring);
+		let data__33: bitstring = privChDec__failurefailure (privChData34) in
+		in (chControl, strong__Testbench__135: bitstring);
+		out (chControl, chControlEnc ((sessionID, call__Testbench__1, strong__Testbench__135))))
+	else
+		in (ch, privChData37: bitstring);
+		let data__36: bitstring = privChDec__successsuccess (privChData37) in
+		in (chControl, strong__Testbench__138: bitstring);
+		out (chControl, chControlEnc ((sessionID, call__Testbench__1, strong__Testbench__138))).
+
+let Testbench__0 (sessionID: bitstring) =
+	new strong__Testbench__039: bitstring;
+	out (chControl, strong__Testbench__039);
+	in (chControl, chControlData: bitstring);
+	let (=sessionID, =call__Testbench__0, =strong__Testbench__039) = chControlDec (chControlData) in
+	in (chControl, strong__Testbench__140: bitstring);
+	out (chControl, chControlEnc ((sessionID, call__Testbench__1, strong__Testbench__140))).
+
+let Timer__ATST1__start (sessionID: bitstring) =
+	new Timer__ATST1__value: bitstring;
+	in (chControl, strong__Timer__ATST1__041: bitstring);
+	out (chControl, chControlEnc ((sessionID, call__Timer__ATST1__0, strong__Timer__ATST1__041, Timer__ATST1__value))).
+
+let Timer__ATST1__2 (sessionID: bitstring) =
+	new strong__Timer__ATST1__242: bitstring;
+	out (chControl, strong__Timer__ATST1__242);
+	in (chControl, chControlData: bitstring);
+	let (=sessionID, =call__Timer__ATST1__2, =strong__Timer__ATST1__242, Timer__ATST1__value__1: bitstring) = chControlDec (chControlData) in
+	event enteringState__Timer__ATST1__wait4set();
+	new choice__wait4set__0: bitstring;
+	out (ch, choice__wait4set__0);
+	in (ch, choice__wait4set: bitstring);
+	if choice__wait4set = choice__wait4set__0 then (
+		in (ch, Timer__ATST1__value__2: bitstring);
+		in (chControl, strong__Timer__ATST1__143: bitstring);
+		out (chControl, chControlEnc ((sessionID, call__Timer__ATST1__1, strong__Timer__ATST1__143, Timer__ATST1__value__2))))
+	else
+		in (ch, data__44: bitstring);
+		in (chControl, strong__Timer__ATST1__245: bitstring);
+		out (chControl, chControlEnc ((sessionID, call__Timer__ATST1__2, strong__Timer__ATST1__245, Timer__ATST1__value__1))).
+
+let Timer__ATST1__1 (sessionID: bitstring) =
+	new strong__Timer__ATST1__146: bitstring;
+	out (chControl, strong__Timer__ATST1__146);
+	in (chControl, chControlData: bitstring);
+	let (=sessionID, =call__Timer__ATST1__1, =strong__Timer__ATST1__146, Timer__ATST1__value__1: bitstring) = chControlDec (chControlData) in
+	event enteringState__Timer__ATST1__wait4expire();
+	new choice__wait4expire__0: bitstring;
+	out (ch, choice__wait4expire__0);
+	new choice__wait4expire__1: bitstring;
+	out (ch, choice__wait4expire__1);
+	in (ch, choice__wait4expire: bitstring);
+	if choice__wait4expire = choice__wait4expire__0 then (
+		in (ch, Timer__ATST1__value__2: bitstring);
+		in (chControl, strong__Timer__ATST1__147: bitstring);
+		out (chControl, chControlEnc ((sessionID, call__Timer__ATST1__1, strong__Timer__ATST1__147, Timer__ATST1__value__2))))
+	else
+		if choice__wait4expire = choice__wait4expire__1 then (
+			new data__48: bitstring;
+			out (ch, data__48);
+			in (chControl, strong__Timer__ATST1__249: bitstring);
+			out (chControl, chControlEnc ((sessionID, call__Timer__ATST1__2, strong__Timer__ATST1__249, Timer__ATST1__value__1))))
+		else
+			in (ch, data__50: bitstring);
+			in (chControl, strong__Timer__ATST1__251: bitstring);
+			out (chControl, chControlEnc ((sessionID, call__Timer__ATST1__2, strong__Timer__ATST1__251, Timer__ATST1__value__1))).
+
+let Timer__ATST1__0 (sessionID: bitstring) =
+	new strong__Timer__ATST1__052: bitstring;
+	out (chControl, strong__Timer__ATST1__052);
+	in (chControl, chControlData: bitstring);
+	let (=sessionID, =call__Timer__ATST1__0, =strong__Timer__ATST1__052, Timer__ATST1__value__1: bitstring) = chControlDec (chControlData) in
+	in (chControl, strong__Timer__ATST1__253: bitstring);
+	out (chControl, chControlEnc ((sessionID, call__Timer__ATST1__2, strong__Timer__ATST1__253, Timer__ATST1__value__1))).
+
+process
+	! (
+		new sessionID: bitstring;
+		((
+			FANS__0 (sessionID)
+		) | (
+			Aircraft__0 (sessionID)
+		) | (
+			!
+				Aircraft__1 (sessionID)
+		) | (
+			!
+				Aircraft__2 (sessionID)
+		) | (
+			GroundFacility__0 (sessionID)
+		) | (
+			!
+				GroundFacility__1 (sessionID)
+		) | (
+			Testbench__0 (sessionID)
+		) | (
+			!
+				Testbench__1 (sessionID)
+		) | (
+			Timer__ATST1__0 (sessionID)
+		) | (
+			!
+				Timer__ATST1__2 (sessionID)
+		) | (
+			!
+				Timer__ATST1__1 (sessionID)
+		) | (
+			(
+				((
+					FANS__start (sessionID)
+				) | (
+					Aircraft__start (sessionID)
+				) | (
+					GroundFacility__start (sessionID)
+				) | (
+					Testbench__start (sessionID)
+				) | (
+					Timer__ATST1__start (sessionID)
+				)))
+		)))

@@ -1,0 +1,90 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="555" height="503" viewbox="262 45 293 458">
+<ellipse  cx="407" cy="57" rx="7" ry="7" fill="#000000"/>
+<line  x1="407" y1="65" x2="407" y2="70" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="408" y1="216" x2="408" y2="211" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="408" y1="236" x2="408" y2="241" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="378" y1="217" x2="430" y2="217" stroke="#80b4cd" stroke-width="1" fill="none"/>
+<line  x1="378" y1="237" x2="430" y2="237" stroke="#80b4cd" stroke-width="1" fill="none"/>
+<line  x1="378" y1="217" x2="378" y2="237" stroke="#80b4cd" stroke-width="1" fill="none"/>
+<line  x1="430" y1="217" x2="440" y2="227" stroke="#80b4cd" stroke-width="1" fill="none"/>
+<line  x1="430" y1="237" x2="440" y2="227" stroke="#80b4cd" stroke-width="1" fill="none"/>
+<line  x1="377" y1="216" x2="429" y2="216" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="377" y1="236" x2="429" y2="236" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="377" y1="216" x2="377" y2="236" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="429" y1="216" x2="439" y2="226" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="429" y1="236" x2="439" y2="226" stroke="#000000" stroke-width="1" fill="none"/>
+<text  x="382" y="231" style="font-size:12; font-family:SansSerif.plain; fill=#000000">startIN()</text>
+<rect  x="345" y="272" width="126" height="73" rx="5" ry="5" fill="#c1daf1"/>
+<rect  x="345" y="272" width="126" height="73" rx="5" ry="5" fill="none" stroke="#000000" stroke-width="1"/>
+<text  x="358" y="287" style="font-size:12; font-family:SansSerif.bold; font-weight=bold; fill=#000000">TB_waitResult</text>
+<line  x1="345" y1="289" x2="471" y2="289" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="336" y1="417" x2="336" y2="412" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="336" y1="437" x2="336" y2="442" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="298" y1="418" x2="377" y2="418" stroke="#80b4cd" stroke-width="1" fill="none"/>
+<line  x1="377" y1="418" x2="377" y2="438" stroke="#80b4cd" stroke-width="1" fill="none"/>
+<line  x1="298" y1="438" x2="377" y2="438" stroke="#80b4cd" stroke-width="1" fill="none"/>
+<line  x1="298" y1="418" x2="308" y2="428" stroke="#80b4cd" stroke-width="1" fill="none"/>
+<line  x1="298" y1="438" x2="308" y2="428" stroke="#80b4cd" stroke-width="1" fill="none"/>
+<line  x1="297" y1="417" x2="376" y2="417" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="376" y1="417" x2="376" y2="437" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="297" y1="437" x2="376" y2="437" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="297" y1="417" x2="307" y2="427" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="297" y1="437" x2="307" y2="427" stroke="#000000" stroke-width="1" fill="none"/>
+<text  x="309" y="432" style="font-size:12; font-family:SansSerif.plain; fill=#000000">success()</text>
+<text  x="357" y="415" style="font-size:12; font-family:SansSerif.bold; font-weight=bold; fill=#000000">R</text>
+<text  x="358" y="416" style="font-size:12; font-family:SansSerif.bold; font-weight=bold; fill=#00e800">R</text>
+<text  x="365" y="415" style="font-size:12; font-family:SansSerif.bold; font-weight=bold; fill=#000000">L</text>
+<text  x="366" y="416" style="font-size:12; font-family:SansSerif.bold; font-weight=bold; fill=#ff0000">L</text>
+<line  x1="408" y1="241" x2="408" y2="272" stroke="#000000" stroke-width="1" fill="none"/>
+<polygon  points="408,272 403,263 412,263 " fill="#000000"/>
+<polygon  points="408,272 403,263 412,263 " fill="none" stroke="#000000" stroke-width="1"/>
+<line  x1="476" y1="418" x2="476" y2="413" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="476" y1="438" x2="476" y2="443" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="444" y1="419" x2="511" y2="419" stroke="#80b4cd" stroke-width="1" fill="none"/>
+<line  x1="511" y1="419" x2="511" y2="439" stroke="#80b4cd" stroke-width="1" fill="none"/>
+<line  x1="444" y1="439" x2="511" y2="439" stroke="#80b4cd" stroke-width="1" fill="none"/>
+<line  x1="444" y1="419" x2="454" y2="429" stroke="#80b4cd" stroke-width="1" fill="none"/>
+<line  x1="444" y1="439" x2="454" y2="429" stroke="#80b4cd" stroke-width="1" fill="none"/>
+<line  x1="443" y1="418" x2="510" y2="418" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="510" y1="418" x2="510" y2="438" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="443" y1="438" x2="510" y2="438" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="443" y1="418" x2="453" y2="428" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="443" y1="438" x2="453" y2="428" stroke="#000000" stroke-width="1" fill="none"/>
+<text  x="455" y="433" style="font-size:12; font-family:SansSerif.plain; fill=#000000">failure()</text>
+<text  x="491" y="416" style="font-size:12; font-family:SansSerif.bold; font-weight=bold; fill=#000000">R</text>
+<text  x="492" y="417" style="font-size:12; font-family:SansSerif.bold; font-weight=bold; fill=#00e800">R</text>
+<text  x="499" y="416" style="font-size:12; font-family:SansSerif.bold; font-weight=bold; fill=#000000">L</text>
+<text  x="500" y="417" style="font-size:12; font-family:SansSerif.bold; font-weight=bold; fill=#ff0000">L</text>
+<line  x1="376" y1="345" x2="336" y2="412" stroke="#000000" stroke-width="1" fill="none"/>
+<polygon  points="336,412 336,402 344,407 " fill="#000000"/>
+<polygon  points="336,412 336,402 344,407 " fill="none" stroke="#000000" stroke-width="1"/>
+<line  x1="439" y1="345" x2="476" y2="413" stroke="#000000" stroke-width="1" fill="none"/>
+<polygon  points="476,413 467,407 476,403 " fill="#000000"/>
+<polygon  points="476,413 467,407 476,403 " fill="none" stroke="#000000" stroke-width="1"/>
+<rect  x="357" y="116" width="100" height="50" rx="5" ry="5" fill="#c1daf1"/>
+<rect  x="357" y="116" width="100" height="50" rx="5" ry="5" fill="none" stroke="#000000" stroke-width="1"/>
+<text  x="378" y="131" style="font-size:12; font-family:SansSerif.bold; font-weight=bold; fill=#000000">TB_start</text>
+<line  x1="357" y1="133" x2="457" y2="133" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="407" y1="70" x2="407" y2="116" stroke="#000000" stroke-width="1" fill="none"/>
+<polygon  points="407,116 402,107 411,107 " fill="#000000"/>
+<polygon  points="407,116 402,107 411,107 " fill="none" stroke="#000000" stroke-width="1"/>
+<line  x1="407" y1="166" x2="408" y2="211" stroke="#000000" stroke-width="1" fill="none"/>
+<polygon  points="408,211 402,202 412,202 " fill="#000000"/>
+<polygon  points="408,211 402,202 412,202 " fill="none" stroke="#000000" stroke-width="1"/>
+<line  x1="336" y1="442" x2="336" y2="462" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="336" y1="462" x2="267" y2="462" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="267" y1="462" x2="267" y2="96" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="267" y1="96" x2="369" y2="96" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="369" y1="96" x2="369" y2="116" stroke="#000000" stroke-width="1" fill="none"/>
+<polygon  points="369,116 364,107 373,107 " fill="#000000"/>
+<polygon  points="369,116 364,107 373,107 " fill="none" stroke="#000000" stroke-width="1"/>
+<line  x1="476" y1="443" x2="476" y2="463" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="476" y1="463" x2="550" y2="463" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="550" y1="463" x2="550" y2="96" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="550" y1="96" x2="444" y2="96" stroke="#000000" stroke-width="1" fill="none"/>
+<line  x1="444" y1="96" x2="444" y2="116" stroke="#000000" stroke-width="1" fill="none"/>
+<polygon  points="444,116 439,107 448,107 " fill="#000000"/>
+<polygon  points="444,116 439,107 448,107 " fill="none" stroke="#000000" stroke-width="1"/>
+</svg>

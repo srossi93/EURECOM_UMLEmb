@@ -1,0 +1,237 @@
+p 100 100 FANS__start__80677 1 n
+p 100 225 FANS____StopState__80678 0 n
+p 350 100 Aircraft__start__80693 1 n
+p 350 225 Aircraft__WaitActivation__80688 0 n
+p 350 350 Aircraft__Receive__startIN__80692 0 n
+p 350 475 Aircraft__SendCon__80687 0 n
+p 350 600 Aircraft__choice__0__80682 0 n
+p 350 725 Aircraft__Send__FN_CON__80691 0 n
+p 350 850 Aircraft__Send__set__ATST1__80782 0 n
+p 350 975 Aircraft__WaitAck__80690 0 n
+p 350 1100 Aircraft__Receive__FN_ACK__80689 0 n
+p 350 1225 Aircraft__Send__reset__ATST1__80780 0 n
+p 350 1350 Aircraft__Send__success__80686 0 n
+p 350 1475 Aircraft__Receive__expire__ATST1__80781 0 n
+p 350 1600 Aircraft__NotificationFail__80681 0 n
+p 350 1725 Aircraft__Send__failure__80680 0 n
+p 700 100 GroundFacility__start__80728 1 n
+p 700 225 GroundFacility__WaitForCon__80727 0 n
+p 700 350 GroundFacility__Receive__FN_CON__80726 0 n
+p 700 475 GroundFacility__Msg_received__80724 0 n
+p 700 600 GroundFacility__Send__FN_ACK__80725 0 n
+p 1150 100 Testbench__start__80740 1 n
+p 1150 225 Testbench__TB_start__80735 0 n
+p 1150 350 Testbench__Send__startIN__80739 0 n
+p 1150 475 Testbench__TB_waitResult__80738 0 n
+p 1150 600 Testbench__Receive__failure__80736 0 n
+p 1150 725 Testbench__Receive__success__80737 0 n
+p 1700 100 Timer__ATST1__start__80759 1 n
+p 1700 225 Timer__ATST1__wait4set__80760 0 n
+p 1700 350 Timer__ATST1__Receive__set__80762 0 n
+p 1700 475 Timer__ATST1__wait4expire__80761 0 n
+p 1700 600 Timer__ATST1__Receive__set__80763 0 n
+p 1700 725 Timer__ATST1__Send__expire__80766 0 n
+p 1700 850 Timer__ATST1__Receive__reset__80765 0 n
+p 1700 975 Timer__ATST1__Receive__reset__80764 0 n
+p 2350 100 Synchro_from_Testbench__Send__startIN__80739_to_FANS__Receive__startIN__80692 0 n
+p 2350 225 Synchro_from_GroundFacility__Send__FN_ACK__80725_to_Aircraft__Receive__FN_ACK__80689 0 n
+p 2350 350 Synchro_from_Timer__ATST1__Send__expire__80766_to_Aircraft__Receive__expire__ATST1__80781 0 n
+p 2350 475 Synchro_from_Aircraft__Send__FN_CON__80691_to_GroundFacility__Receive__FN_CON__80726 0 n
+p 2350 600 Synchro_from_FANS__Send__failure__80680_to_Testbench__Receive__failure__80736 0 n
+p 2350 725 Synchro_from_FANS__Send__success__80686_to_Testbench__Receive__success__80737 0 n
+p 2350 850 Synchro_from_Aircraft__Send__set__ATST1__80782_to_Timer__ATST1__Receive__set__80762 0 n
+p 2350 975 Synchro_from_Aircraft__Send__set__ATST1__80782_to_Timer__ATST1__Receive__set__80763 0 n
+p 2350 1100 Synchro_from_Aircraft__Send__reset__ATST1__80780_to_Timer__ATST1__Receive__reset__80765 0 n
+p 2350 1225 Synchro_from_Aircraft__Send__reset__ATST1__80780_to_Timer__ATST1__Receive__reset__80764 0 n
+t 200 112 t43 0 w n
+e FANS__start__80677 t43 1 n
+e t43 FANS____StopState__80678 1 n
+
+t 450 112 t44 0 w n
+e Aircraft__start__80693 t44 1 n
+e t44 Aircraft__WaitActivation__80688 1 n
+
+t 450 362 t45 0 w n
+e Aircraft__Receive__startIN__80692 t45 1 n
+e t45 Aircraft__SendCon__80687 1 n
+
+t 450 487 t46 0 w n
+e Aircraft__SendCon__80687 t46 1 n
+e t46 Aircraft__choice__0__80682 1 n
+
+t 450 862 t47 0 w n
+e Aircraft__Send__set__ATST1__80782 t47 1 n
+e t47 Aircraft__WaitAck__80690 1 n
+
+t 450 737 t48 0 w n
+e Aircraft__Send__success__80686 t48 1 n
+e t48 Aircraft__WaitActivation__80688 1 n
+
+t 450 925 t49 0 w n
+e Aircraft__Receive__expire__ATST1__80781 t49 1 n
+e t49 Aircraft__SendCon__80687 1 n
+
+t 450 1050 t50 0 w n
+e Aircraft__choice__0__80682 t50 1 n
+e t50 Aircraft__NotificationFail__80681 1 n
+
+t 450 925 t51 0 w n
+e Aircraft__Send__failure__80680 t51 1 n
+e t51 Aircraft__WaitActivation__80688 1 n
+
+t 800 112 t52 0 w n
+e GroundFacility__start__80728 t52 1 n
+e t52 GroundFacility__WaitForCon__80727 1 n
+
+t 800 362 t53 0 w n
+e GroundFacility__Receive__FN_CON__80726 t53 1 n
+e t53 GroundFacility__Msg_received__80724 1 n
+
+t 800 300 t54 0 w n
+e GroundFacility__Msg_received__80724 t54 1 n
+e t54 GroundFacility__WaitForCon__80727 1 n
+
+t 800 362 t55 0 w n
+e GroundFacility__Send__FN_ACK__80725 t55 1 n
+e t55 GroundFacility__WaitForCon__80727 1 n
+
+t 1250 112 t56 0 w n
+e Testbench__start__80740 t56 1 n
+e t56 Testbench__TB_start__80735 1 n
+
+t 1250 362 t57 0 w n
+e Testbench__Send__startIN__80739 t57 1 n
+e t57 Testbench__TB_waitResult__80738 1 n
+
+t 1250 362 t58 0 w n
+e Testbench__Receive__failure__80736 t58 1 n
+e t58 Testbench__TB_start__80735 1 n
+
+t 1250 425 t59 0 w n
+e Testbench__Receive__success__80737 t59 1 n
+e t59 Testbench__TB_start__80735 1 n
+
+t 1800 112 t60 0 w n
+e Timer__ATST1__start__80759 t60 1 n
+e t60 Timer__ATST1__wait4set__80760 1 n
+
+t 1800 362 t61 0 w n
+e Timer__ATST1__Receive__set__80762 t61 1 n
+e t61 Timer__ATST1__wait4expire__80761 1 n
+
+t 1800 487 t62 0 w n
+e Timer__ATST1__Receive__set__80763 t62 1 n
+e t62 Timer__ATST1__wait4expire__80761 1 n
+
+t 1800 425 t63 0 w n
+e Timer__ATST1__Send__expire__80766 t63 1 n
+e t63 Timer__ATST1__wait4set__80760 1 n
+
+t 1800 487 t64 0 w n
+e Timer__ATST1__Receive__reset__80765 t64 1 n
+e t64 Timer__ATST1__wait4set__80760 1 n
+
+t 1800 550 t65 0 w n
+e Timer__ATST1__Receive__reset__80764 t65 1 n
+e t65 Timer__ATST1__wait4set__80760 1 n
+
+t 1383 133 t66 0 w n
+e Aircraft__WaitActivation__80688 t66 1 n
+e Testbench__TB_start__80735 t66 1 n
+e t66 Synchro_from_Testbench__Send__startIN__80739_to_FANS__Receive__startIN__80692 1 n
+
+t 1383 216 t67 0 w n
+e Synchro_from_Testbench__Send__startIN__80739_to_FANS__Receive__startIN__80692 t67 1 n
+e t67 Testbench__Send__startIN__80739 1 n
+e t67 Aircraft__Receive__startIN__80692 1 n
+
+t 1233 508 t68 0 w n
+e Aircraft__WaitAck__80690 t68 1 n
+e GroundFacility__Msg_received__80724 t68 1 n
+e t68 Synchro_from_GroundFacility__Send__FN_ACK__80725_to_Aircraft__Receive__FN_ACK__80689 1 n
+
+t 1233 591 t69 0 w n
+e Synchro_from_GroundFacility__Send__FN_ACK__80725_to_Aircraft__Receive__FN_ACK__80689 t69 1 n
+e t69 GroundFacility__Send__FN_ACK__80725 1 n
+e t69 Aircraft__Receive__FN_ACK__80689 1 n
+
+t 1566 550 t70 0 w n
+e Aircraft__WaitAck__80690 t70 1 n
+e Timer__ATST1__wait4expire__80761 t70 1 n
+e t70 Synchro_from_Timer__ATST1__Send__expire__80766_to_Aircraft__Receive__expire__ATST1__80781 1 n
+
+t 1566 800 t71 0 w n
+e Synchro_from_Timer__ATST1__Send__expire__80766_to_Aircraft__Receive__expire__ATST1__80781 t71 1 n
+e t71 Timer__ATST1__Send__expire__80766 1 n
+e t71 Aircraft__Receive__expire__ATST1__80781 1 n
+
+t 1233 383 t72 0 w n
+e GroundFacility__WaitForCon__80727 t72 1 n
+e Aircraft__choice__0__80682 t72 1 n
+e t72 Synchro_from_Aircraft__Send__FN_CON__80691_to_GroundFacility__Receive__FN_CON__80726 1 n
+
+t 1233 466 t73 0 w n
+e Synchro_from_Aircraft__Send__FN_CON__80691_to_GroundFacility__Receive__FN_CON__80726 t73 1 n
+e t73 Aircraft__Send__FN_CON__80691 1 n
+e t73 GroundFacility__Receive__FN_CON__80726 1 n
+
+t 1383 841 t74 0 w n
+e Testbench__TB_waitResult__80738 t74 1 n
+e Aircraft__NotificationFail__80681 t74 1 n
+e t74 Synchro_from_FANS__Send__failure__80680_to_Testbench__Receive__failure__80736 1 n
+
+t 1383 925 t75 0 w n
+e Synchro_from_FANS__Send__failure__80680_to_Testbench__Receive__failure__80736 t75 1 n
+e t75 Aircraft__Send__failure__80680 1 n
+e t75 Testbench__Receive__failure__80736 1 n
+
+t 1383 758 t76 0 w n
+e Testbench__TB_waitResult__80738 t76 1 n
+e Aircraft__Send__reset__ATST1__80780 t76 1 n
+e t76 Synchro_from_FANS__Send__success__80686_to_Testbench__Receive__success__80737 1 n
+
+t 1383 883 t77 0 w n
+e Synchro_from_FANS__Send__success__80686_to_Testbench__Receive__success__80737 t77 1 n
+e t77 Aircraft__Send__success__80686 1 n
+e t77 Testbench__Receive__success__80737 1 n
+
+t 1566 550 t78 0 w n
+e Timer__ATST1__wait4set__80760 t78 1 n
+e Aircraft__Send__FN_CON__80691 t78 1 n
+e t78 Synchro_from_Aircraft__Send__set__ATST1__80782_to_Timer__ATST1__Receive__set__80762 1 n
+
+t 1566 633 t79 0 w n
+e Synchro_from_Aircraft__Send__set__ATST1__80782_to_Timer__ATST1__Receive__set__80762 t79 1 n
+e t79 Aircraft__Send__set__ATST1__80782 1 n
+e t79 Timer__ATST1__Receive__set__80762 1 n
+
+t 1566 675 t80 0 w n
+e Timer__ATST1__wait4expire__80761 t80 1 n
+e Aircraft__Send__FN_CON__80691 t80 1 n
+e t80 Synchro_from_Aircraft__Send__set__ATST1__80782_to_Timer__ATST1__Receive__set__80763 1 n
+
+t 1566 758 t81 0 w n
+e Synchro_from_Aircraft__Send__set__ATST1__80782_to_Timer__ATST1__Receive__set__80763 t81 1 n
+e t81 Aircraft__Send__set__ATST1__80782 1 n
+e t81 Timer__ATST1__Receive__set__80763 1 n
+
+t 1566 841 t82 0 w n
+e Timer__ATST1__wait4expire__80761 t82 1 n
+e Aircraft__Receive__FN_ACK__80689 t82 1 n
+e t82 Synchro_from_Aircraft__Send__reset__ATST1__80780_to_Timer__ATST1__Receive__reset__80765 1 n
+
+t 1566 1008 t83 0 w n
+e Synchro_from_Aircraft__Send__reset__ATST1__80780_to_Timer__ATST1__Receive__reset__80765 t83 1 n
+e t83 Aircraft__Send__reset__ATST1__80780 1 n
+e t83 Timer__ATST1__Receive__reset__80765 1 n
+
+t 1566 800 t84 0 w n
+e Timer__ATST1__wait4set__80760 t84 1 n
+e Aircraft__Receive__FN_ACK__80689 t84 1 n
+e t84 Synchro_from_Aircraft__Send__reset__ATST1__80780_to_Timer__ATST1__Receive__reset__80764 1 n
+
+t 1566 1091 t85 0 w n
+e Synchro_from_Aircraft__Send__reset__ATST1__80780_to_Timer__ATST1__Receive__reset__80764 t85 1 n
+e t85 Aircraft__Send__reset__ATST1__80780 1 n
+e t85 Timer__ATST1__Receive__reset__80764 1 n
+

@@ -1,0 +1,12 @@
+--------------------------------------------
+Searching for absence of deadlock situations
+-> property is satisfied
+
+Reachability of: Aircraft.Send signal: failure()
+-> property is satisfied
+
+Reachability of: Aircraft.Send signal: success()
+-> property is satisfied
+
+All Done
+
