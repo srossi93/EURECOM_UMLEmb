@@ -159,7 +159,9 @@ types: Email, Image and Video.
     \includegraphics[width = 0.8\textwidth]{Foscam10.png}
   \end{minipage}
   \begin{minipage}{0.35\linewidth}
-    Bla bla bla 
+    The motion detection engine will analyse a one second video to eventually
+    identify some moving objects. If so, the WebServer will be notified and
+    an alarm will be triggered.
   \end{minipage}
 \end{minipage}
 
@@ -183,9 +185,42 @@ This is the most complex submodule of the firmware. This module is used for:
     object movement.
 \end{itemize}
 
+\section{Nominal Case Diagrams}
+\label{sec:Nominal Cases Diagram}
+These are some nominal case diagrams used to understant whether or not all
+the subsystems work as stated in the requirements.
+
+\subsubsection{Light Management}
+\label{subs:Light Management}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width = 0.7\textwidth]{./light_sensor.png}
+\end{figure}
+
+\subsubsection{Camera Management}
+\label{subs:Light Management}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width = 0.7\textwidth]{./camera_management.png}
+\end{figure}
+\newpage
+\subsubsection{WebServer}
+\label{subs:Light Management}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width = .65\textwidth]{./disconnection_from_ethernet.png}
+\end{figure}
 
 
+\section{Formal Verification}
+\label{sec:Formal Verification}
 
-
+For the formal verification, I verified that whenever a moving object has been
+detected, an email will be send. The formal proof has shown that both these states
+are reachable and the liveness property is guaranteed.
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width = \textwidth]{./formal_verification.png}
+\end{figure}
 
 \end{document}
