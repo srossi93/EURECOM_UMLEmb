@@ -1,0 +1,928 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<nta>
+<declaration>
+//Global declarations
+
+//Declarations used for non synchronized gates
+urgent chan makeChoice;
+
+//Declarations for asynchronous channels
+urgent chan TB_Applications_OBS_awake__wr;
+urgent chan OBS_LowBattery_OBS_awake__rd;
+urgent chan Temperature_Reader_OBS_temperature__wr;
+urgent chan OBS_LowBattery_OBS_temperature__rd;
+
+//Declarations for synchronous channels
+urgent chan Main_Controller_app_wake__TB_Applications_app_wake;
+urgent chan Main_Controller_app_sleep__TB_Applications_app_sleep;
+urgent chan Main_Controller_os_sleeps__TB_OS_os_sleeps;
+urgent chan Main_Controller_os_waked__TB_OS_os_waked;
+urgent chan Battery_Reader_battery_request__Main_Controller_battery_request;
+urgent chan Battery_Reader_battery__Main_Controller_battery;
+urgent chan Main_Controller_temperature__Temperature_Reader_temperature;
+urgent chan Main_Controller_temperature_request__Temperature_Reader_temperature_request;
+urgent chan TB_BatteryDriver_battery_status__Battery_Reader_battery_status;
+urgent chan TB_TemperatureDriver_temperature_sensor__Temperature_Reader_temperature_sensor;
+urgent chan Main_Controller_set__primary_timer__Timer__primary_timer_set;
+urgent chan Main_Controller_reset__primary_timer__Timer__primary_timer_reset;
+urgent chan Main_Controller_expire__primary_timer__Timer__primary_timer_expire;
+urgent chan Main_Controller_set__watchdog_timer__Timer__watchdog_timer_set;
+urgent chan Main_Controller_reset__watchdog_timer__Timer__watchdog_timer_reset;
+urgent chan Main_Controller_expire__watchdog_timer__Timer__watchdog_timer_expire;
+
+// Global parameters for method calls and signal exchange
+int actionint__0;
+
+
+int min(int x, int y) {
+  if(x&lt;y) {
+    return x;
+  }
+  return y;
+}
+
+int max(int x, int y) {
+  if(x&lt;y) {
+    return y;
+  }
+  return x;
+}
+</declaration>
+<template>
+<name>OBS_LowBattery</name>
+<parameter></parameter>
+<declaration>int temperature = 0;
+clock h__;
+</declaration>
+<location id="id0" x="-100" y="-220">
+<name x="-90" y="-215">id0</name>
+</location>
+<init ref="id0" />
+</template>
+<template>
+<name>TB_Applications</name>
+<parameter></parameter>
+<declaration>clock h__;
+</declaration>
+<location id="id1" x="-100" y="0">
+<name x="-90" y="5">id1</name>
+</location>
+<location id="id2" x="5" y="-150">
+<name x="15" y="-145">id2</name>
+</location>
+<location id="id3" x="10" y="-80">
+<name x="20" y="-75">id3</name>
+</location>
+<init ref="id1" />
+<transition>
+<source ref="id1" />
+<target ref="id2" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="-42" y="-195">Main_Controller_app_wake__TB_Applications_app_wake?</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="-51" y="-184" />
+</transition>
+<transition>
+<source ref="id2" />
+<target ref="id3" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="12" y="-125">TB_Applications_OBS_awake__wr!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="5" y="-126" />
+</transition>
+<transition>
+<source ref="id3" />
+<target ref="id1" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="17" y="-55">Main_Controller_app_sleep__TB_Applications_app_sleep?</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="26" y="-36" />
+</transition>
+</template>
+<template>
+<name>TB_user</name>
+<parameter></parameter>
+<declaration>clock h__;
+</declaration>
+<location id="id5" x="-100" y="-220">
+<name x="-90" y="-215">id5</name>
+</location>
+<init ref="id5" />
+</template>
+<template>
+<name>TB_OS</name>
+<parameter></parameter>
+<declaration>clock h__;
+</declaration>
+<location id="id6" x="-100" y="30">
+<name x="-90" y="35">id6</name>
+</location>
+<location id="id7" x="5" y="-150">
+<name x="15" y="-145">id7</name>
+<committed />
+</location>
+<location id="id8" x="10" y="-80">
+<name x="20" y="-75">id8</name>
+<label kind="invariant"  x="15" y="-65">(h__ &lt;= (60))</label>
+</location>
+<location id="id9" x="15" y="-10">
+<name x="25" y="-5">id9</name>
+</location>
+<location id="id10" x="20" y="60">
+<name x="30" y="65">id10</name>
+</location>
+<init ref="id6" />
+<transition>
+<source ref="id6" />
+<target ref="id7" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="-42" y="-195">Main_Controller_os_sleeps__TB_OS_os_sleeps!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="-62" y="-203" />
+</transition>
+<transition>
+<source ref="id7" />
+<target ref="id8" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="17" y="-115">h__ = 0</label>
+<nail x="8" y="-96" />
+</transition>
+<transition>
+<source ref="id8" />
+<target ref="id9" />
+<label kind="guard" x="12" y="-65">(h__ &gt;= (60))</label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="3" y="-57" />
+</transition>
+<transition>
+<source ref="id9" />
+<target ref="id10" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="22" y="15">Main_Controller_os_waked__TB_OS_os_waked!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="24" y="47" />
+</transition>
+</template>
+<template>
+<name>SmartConnect_Tech</name>
+<parameter></parameter>
+<declaration>clock h__;
+</declaration>
+<location id="id11" x="-100" y="-220">
+<name x="-90" y="-215">id11</name>
+</location>
+<init ref="id11" />
+</template>
+<template>
+<name>Battery_Reader</name>
+<parameter></parameter>
+<declaration>int status = 0;
+clock h__;
+</declaration>
+<location id="id12" x="-100" y="0">
+<name x="-90" y="5">id12</name>
+</location>
+<location id="id13" x="5" y="-150">
+<name x="15" y="-145">id13</name>
+</location>
+<init ref="id12" />
+<transition>
+<source ref="id12" />
+<target ref="id13" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="-42" y="-195">Battery_Reader_battery_request__Main_Controller_battery_request?</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="-58" y="-187" />
+</transition>
+<transition>
+<source ref="id13" />
+<target ref="id12" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="12" y="-125">Battery_Reader_battery__Main_Controller_battery!</label>
+<label kind="assignment" x="17" y="-115">actionint__0 = status</label>
+<nail x="-10" y="-111" />
+</transition>
+<transition>
+<source ref="id12" />
+<target ref="id12" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="-37" y="-125">TB_BatteryDriver_battery_status__Battery_Reader_battery_status?</label>
+<label kind="assignment" x="-32" y="-115">status = actionint__0</label>
+<nail x="-24" y="-119" />
+<nail x="-14" y="-84" />
+</transition>
+</template>
+<template>
+<name>Main_Controller</name>
+<parameter></parameter>
+<declaration>int temperature = 0;
+int status = 0;
+int __timerValue = 0;
+clock h__;
+</declaration>
+<location id="id16" x="-100" y="485">
+<name x="-90" y="490">id16</name>
+</location>
+<location id="id17" x="5" y="-150">
+<name x="15" y="-145">id17</name>
+<committed />
+</location>
+<location id="id18" x="10" y="-80">
+<name x="20" y="-75">id18</name>
+</location>
+<location id="id19" x="15" y="-10">
+<name x="25" y="-5">id19</name>
+</location>
+<location id="id20" x="20" y="60">
+<name x="30" y="65">id20</name>
+</location>
+<location id="id21" x="25" y="130">
+<name x="35" y="135">id21</name>
+</location>
+<location id="id22" x="30" y="200">
+<name x="40" y="205">id22</name>
+</location>
+<location id="id23" x="35" y="270">
+<name x="45" y="275">id23</name>
+</location>
+<location id="id26" x="50" y="480">
+<name x="60" y="485">id26</name>
+</location>
+<location id="id27" x="55" y="550">
+<name x="65" y="555">id27</name>
+</location>
+<location id="id29" x="65" y="690">
+<name x="75" y="695">id29</name>
+</location>
+<location id="id30" x="70" y="760">
+<name x="80" y="765">id30</name>
+<committed />
+</location>
+<location id="id31" x="75" y="830">
+<name x="85" y="835">id31</name>
+</location>
+<location id="id32" x="80" y="900">
+<name x="90" y="905">id32</name>
+</location>
+<location id="id33" x="85" y="970">
+<name x="95" y="975">id33</name>
+</location>
+<init ref="id16" />
+<transition>
+<source ref="id16" />
+<target ref="id17" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="-42" y="-195">Main_Controller_os_sleeps__TB_OS_os_sleeps?</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="-55" y="-164" />
+</transition>
+<transition>
+<source ref="id17" />
+<target ref="id18" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="17" y="-115">__timerValue = 10</label>
+<nail x="26" y="-127" />
+</transition>
+<transition>
+<source ref="id18" />
+<target ref="id19" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="17" y="-55">Main_Controller_set__primary_timer__Timer__primary_timer_set!</label>
+<label kind="assignment" x="22" y="-45">actionint__0 = __timerValue</label>
+<nail x="-2" y="-70" />
+</transition>
+<transition>
+<source ref="id19" />
+<target ref="id20" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="22" y="15">Main_Controller_expire__primary_timer__Timer__primary_timer_expire?</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="34" y="12" />
+</transition>
+<transition>
+<source ref="id20" />
+<target ref="id21" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="27" y="85">Main_Controller_temperature_request__Temperature_Reader_temperature_request!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="30" y="102" />
+</transition>
+<transition>
+<source ref="id21" />
+<target ref="id22" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="32" y="155">Main_Controller_temperature__Temperature_Reader_temperature?</label>
+<label kind="assignment" x="37" y="165">temperature = actionint__0</label>
+<nail x="18" y="155" />
+</transition>
+<transition>
+<source ref="id22" />
+<target ref="id23" />
+<label kind="guard" x="32" y="215">not(( temperature &lt; 40 ))</label>
+<label kind="synchronisation" x="37" y="225">makeChoice!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="46" y="247" />
+</transition>
+<transition>
+<source ref="id23" />
+<target ref="id17" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="42" y="295">makeChoice!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="14" y="280" />
+</transition>
+<transition>
+<source ref="id23" />
+<target ref="id16" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="45" y="330">Main_Controller_os_waked__TB_OS_os_waked?</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="54" y="327" />
+</transition>
+<transition>
+<source ref="id22" />
+<target ref="id26" />
+<label kind="guard" x="40" y="320">temperature &lt; 40</label>
+<label kind="synchronisation" x="45" y="330">Battery_Reader_battery_request__Main_Controller_battery_request!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="57" y="327" />
+</transition>
+<transition>
+<source ref="id26" />
+<target ref="id27" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="57" y="505">Battery_Reader_battery__Main_Controller_battery?</label>
+<label kind="assignment" x="62" y="515">status = actionint__0</label>
+<nail x="35" y="522" />
+</transition>
+<transition>
+<source ref="id27" />
+<target ref="id23" />
+<label kind="guard" x="57" y="565">not(( status &gt; 50))</label>
+<label kind="synchronisation" x="62" y="575">makeChoice!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="53" y="601" />
+</transition>
+<transition>
+<source ref="id27" />
+<target ref="id29" />
+<label kind="guard" x="60" y="600">status &gt; 50</label>
+<label kind="synchronisation" x="65" y="610">makeChoice!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="63" y="631" />
+</transition>
+<transition>
+<source ref="id29" />
+<target ref="id30" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="72" y="715">Main_Controller_app_wake__TB_Applications_app_wake!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="46" y="720" />
+</transition>
+<transition>
+<source ref="id30" />
+<target ref="id31" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="82" y="795">__timerValue = 2</label>
+<nail x="61" y="777" />
+</transition>
+<transition>
+<source ref="id31" />
+<target ref="id32" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="82" y="855">Main_Controller_set__watchdog_timer__Timer__watchdog_timer_set!</label>
+<label kind="assignment" x="87" y="865">actionint__0 = __timerValue</label>
+<nail x="78" y="876" />
+</transition>
+<transition>
+<source ref="id32" />
+<target ref="id33" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="87" y="925">Main_Controller_expire__watchdog_timer__Timer__watchdog_timer_expire?</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="73" y="959" />
+</transition>
+<transition>
+<source ref="id33" />
+<target ref="id23" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="92" y="995">Main_Controller_app_sleep__TB_Applications_app_sleep!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="105" y="1025" />
+</transition>
+</template>
+<template>
+<name>Temperature_Reader</name>
+<parameter></parameter>
+<declaration>int temperature = 0;
+clock h__;
+</declaration>
+<location id="id35" x="-100" y="0">
+<name x="-90" y="5">id35</name>
+</location>
+<location id="id37" x="10" y="-80">
+<name x="20" y="-75">id37</name>
+</location>
+<location id="id38" x="15" y="-10">
+<name x="25" y="-5">id38</name>
+</location>
+<init ref="id35" />
+<transition>
+<source ref="id35" />
+<target ref="id35" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="-42" y="-195">TB_TemperatureDriver_temperature_sensor__Temperature_Reader_temperature_sensor?</label>
+<label kind="assignment" x="-37" y="-185">temperature = actionint__0</label>
+<nail x="-49" y="-208" />
+<nail x="-39" y="-173" />
+</transition>
+<transition>
+<source ref="id35" />
+<target ref="id37" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="-40" y="-160">Main_Controller_temperature_request__Temperature_Reader_temperature_request?</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="-34" y="-126" />
+</transition>
+<transition>
+<source ref="id37" />
+<target ref="id38" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="17" y="-55">Main_Controller_temperature__Temperature_Reader_temperature!</label>
+<label kind="assignment" x="22" y="-45">actionint__0 = temperature</label>
+<nail x="17" y="-31" />
+</transition>
+<transition>
+<source ref="id38" />
+<target ref="id35" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="22" y="15">Temperature_Reader_OBS_temperature__wr!</label>
+<label kind="assignment" x="27" y="25">actionint__0 = temperature</label>
+<nail x="5" y="13" />
+</transition>
+</template>
+<template>
+<name>TB_BatteryDriver</name>
+<parameter></parameter>
+<declaration>int status = 0;
+clock h__;
+</declaration>
+<location id="id40" x="-100" y="30">
+<name x="-90" y="35">id40</name>
+<committed />
+</location>
+<location id="id41" x="5" y="-150">
+<name x="15" y="-145">id41</name>
+<committed />
+</location>
+<location id="id42" x="10" y="-80">
+<name x="20" y="-75">id42</name>
+</location>
+<location id="id43" x="15" y="-10">
+<name x="25" y="-5">id43</name>
+<committed />
+</location>
+<location id="id44" x="20" y="60">
+<name x="30" y="65">id44</name>
+<label kind="invariant"  x="25" y="75">(h__ &lt;= (1))</label>
+</location>
+<init ref="id40" />
+<transition>
+<source ref="id40" />
+<target ref="id41" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="-37" y="-185">status=0</label>
+<nail x="-41" y="-183" />
+</transition>
+<transition>
+<source ref="id41" />
+<target ref="id41" />
+<label kind="guard" x="5" y="-170">status&lt;100</label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="15" y="-150">status=status+1</label>
+<nail x="-45" y="-200" />
+<nail x="-35" y="-165" />
+</transition>
+<transition>
+<source ref="id41" />
+<target ref="id42" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="8" y="-111" />
+</transition>
+<transition>
+<source ref="id42" />
+<target ref="id43" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="17" y="-55">TB_BatteryDriver_battery_status__Battery_Reader_battery_status!</label>
+<label kind="assignment" x="22" y="-45">actionint__0 = status</label>
+<nail x="29" y="-67" />
+</transition>
+<transition>
+<source ref="id43" />
+<target ref="id44" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="27" y="25">h__ = 0</label>
+<nail x="3" y="39" />
+</transition>
+<transition>
+<source ref="id44" />
+<target ref="id40" />
+<label kind="guard" x="22" y="75">(h__ &gt;= (1))</label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="12" y="117" />
+</transition>
+</template>
+<template>
+<name>TB_TemperatureDriver</name>
+<parameter></parameter>
+<declaration>int temperature = 0;
+clock h__;
+</declaration>
+<location id="id46" x="-100" y="30">
+<name x="-90" y="35">id46</name>
+<committed />
+</location>
+<location id="id47" x="5" y="-150">
+<name x="15" y="-145">id47</name>
+<committed />
+</location>
+<location id="id48" x="10" y="-80">
+<name x="20" y="-75">id48</name>
+</location>
+<location id="id49" x="15" y="-10">
+<name x="25" y="-5">id49</name>
+<committed />
+</location>
+<location id="id50" x="20" y="60">
+<name x="30" y="65">id50</name>
+<label kind="invariant"  x="25" y="75">(h__ &lt;= (1))</label>
+</location>
+<init ref="id46" />
+<transition>
+<source ref="id46" />
+<target ref="id47" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="-37" y="-185">temperature=0</label>
+<nail x="-30" y="-176" />
+</transition>
+<transition>
+<source ref="id47" />
+<target ref="id47" />
+<label kind="guard" x="5" y="-170">temperature&lt;100</label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="15" y="-150">temperature=temperature+1</label>
+<nail x="-45" y="-200" />
+<nail x="-35" y="-165" />
+</transition>
+<transition>
+<source ref="id47" />
+<target ref="id48" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="4" y="-117" />
+</transition>
+<transition>
+<source ref="id48" />
+<target ref="id49" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="17" y="-55">TB_TemperatureDriver_temperature_sensor__Temperature_Reader_temperature_sensor!</label>
+<label kind="assignment" x="22" y="-45">actionint__0 = temperature</label>
+<nail x="8" y="-69" />
+</transition>
+<transition>
+<source ref="id49" />
+<target ref="id50" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="27" y="25">h__ = 0</label>
+<nail x="6" y="33" />
+</transition>
+<transition>
+<source ref="id50" />
+<target ref="id46" />
+<label kind="guard" x="22" y="75">(h__ &gt;= (1))</label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="34" y="107" />
+</transition>
+</template>
+<template>
+<name>Timer__primary_timer</name>
+<parameter></parameter>
+<declaration>int value = 0;
+clock h__;
+</declaration>
+<location id="id52" x="-100" y="170">
+<name x="-90" y="175">id52</name>
+</location>
+<location id="id53" x="5" y="-150">
+<name x="15" y="-145">id53</name>
+<committed />
+</location>
+<location id="id54" x="10" y="-80">
+<name x="20" y="-75">id54</name>
+<label kind="invariant"  x="15" y="-65">h__ &lt;= value</label>
+</location>
+<location id="id60" x="190" y="340">
+<name x="200" y="345">id60</name>
+</location>
+<init ref="id52" />
+<transition>
+<source ref="id52" />
+<target ref="id53" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="-42" y="-195">Main_Controller_set__primary_timer__Timer__primary_timer_set?</label>
+<label kind="assignment" x="-37" y="-185">value = actionint__0</label>
+<nail x="-45" y="-169" />
+</transition>
+<transition>
+<source ref="id53" />
+<target ref="id54" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="17" y="-115">h__ = 0</label>
+<nail x="29" y="-127" />
+</transition>
+<transition>
+<source ref="id54" />
+<target ref="id53" />
+<label kind="guard" x="20" y="40"></label>
+<label kind="synchronisation" x="25" y="50">Main_Controller_set__primary_timer__Timer__primary_timer_set?</label>
+<label kind="assignment" x="30" y="60">value = actionint__0</label>
+<nail x="29" y="51" />
+</transition>
+<transition>
+<source ref="id54" />
+<target ref="id52" />
+<label kind="guard" x="22" y="75"></label>
+<label kind="synchronisation" x="27" y="85">Main_Controller_reset__primary_timer__Timer__primary_timer_reset?</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="16" y="80" />
+</transition>
+<transition>
+<source ref="id54" />
+<target ref="id60" />
+<label kind="guard" x="100" y="110">h__ &gt;= value</label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="122" y="141" />
+</transition>
+<transition>
+<source ref="id60" />
+<target ref="id53" />
+<label kind="guard" x="192" y="355"></label>
+<label kind="synchronisation" x="197" y="365">Main_Controller_set__primary_timer__Timer__primary_timer_set?</label>
+<label kind="assignment" x="202" y="375">value = actionint__0</label>
+<nail x="173" y="391" />
+</transition>
+<transition>
+<source ref="id60" />
+<target ref="id52" />
+<label kind="guard" x="195" y="390"></label>
+<label kind="synchronisation" x="200" y="400">Main_Controller_expire__primary_timer__Timer__primary_timer_expire!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="198" y="414" />
+</transition>
+<transition>
+<source ref="id60" />
+<target ref="id52" />
+<label kind="guard" x="197" y="425"></label>
+<label kind="synchronisation" x="202" y="435">Main_Controller_reset__primary_timer__Timer__primary_timer_reset?</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="205" y="438" />
+</transition>
+<transition>
+<source ref="id52" />
+<target ref="id52" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="-15" y="190">Main_Controller_reset__primary_timer__Timer__primary_timer_reset?</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="-24" y="183" />
+<nail x="-14" y="218" />
+</transition>
+</template>
+<template>
+<name>Timer__watchdog_timer</name>
+<parameter></parameter>
+<declaration>int value = 0;
+clock h__;
+</declaration>
+<location id="id65" x="-100" y="170">
+<name x="-90" y="175">id65</name>
+</location>
+<location id="id66" x="5" y="-150">
+<name x="15" y="-145">id66</name>
+<committed />
+</location>
+<location id="id67" x="10" y="-80">
+<name x="20" y="-75">id67</name>
+<label kind="invariant"  x="15" y="-65">h__ &lt;= value</label>
+</location>
+<location id="id73" x="190" y="340">
+<name x="200" y="345">id73</name>
+</location>
+<init ref="id65" />
+<transition>
+<source ref="id65" />
+<target ref="id66" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="-42" y="-195">Main_Controller_set__watchdog_timer__Timer__watchdog_timer_set?</label>
+<label kind="assignment" x="-37" y="-185">value = actionint__0</label>
+<nail x="-44" y="-175" />
+</transition>
+<transition>
+<source ref="id66" />
+<target ref="id67" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="17" y="-115">h__ = 0</label>
+<nail x="9" y="-114" />
+</transition>
+<transition>
+<source ref="id67" />
+<target ref="id66" />
+<label kind="guard" x="20" y="40"></label>
+<label kind="synchronisation" x="25" y="50">Main_Controller_set__watchdog_timer__Timer__watchdog_timer_set?</label>
+<label kind="assignment" x="30" y="60">value = actionint__0</label>
+<nail x="12" y="75" />
+</transition>
+<transition>
+<source ref="id67" />
+<target ref="id65" />
+<label kind="guard" x="22" y="75"></label>
+<label kind="synchronisation" x="27" y="85">Main_Controller_reset__watchdog_timer__Timer__watchdog_timer_reset?</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="45" y="102" />
+</transition>
+<transition>
+<source ref="id67" />
+<target ref="id73" />
+<label kind="guard" x="100" y="110">h__ &gt;= value</label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="75" y="135" />
+</transition>
+<transition>
+<source ref="id73" />
+<target ref="id66" />
+<label kind="guard" x="192" y="355"></label>
+<label kind="synchronisation" x="197" y="365">Main_Controller_set__watchdog_timer__Timer__watchdog_timer_set?</label>
+<label kind="assignment" x="202" y="375">value = actionint__0</label>
+<nail x="196" y="368" />
+</transition>
+<transition>
+<source ref="id73" />
+<target ref="id65" />
+<label kind="guard" x="195" y="390"></label>
+<label kind="synchronisation" x="200" y="400">Main_Controller_expire__watchdog_timer__Timer__watchdog_timer_expire!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="211" y="389" />
+</transition>
+<transition>
+<source ref="id73" />
+<target ref="id65" />
+<label kind="guard" x="197" y="425"></label>
+<label kind="synchronisation" x="202" y="435">Main_Controller_reset__watchdog_timer__Timer__watchdog_timer_reset?</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="204" y="420" />
+</transition>
+<transition>
+<source ref="id65" />
+<target ref="id65" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="-15" y="190">Main_Controller_reset__watchdog_timer__Timer__watchdog_timer_reset?</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="-21" y="175" />
+<nail x="-11" y="210" />
+</transition>
+</template>
+<template>
+<name>Nonsync__actions</name>
+<parameter></parameter>
+<declaration></declaration>
+<location id="id78" x="0" y="-220">
+<name x="10" y="-215">id78</name>
+</location>
+<init ref="id78" />
+<transition>
+<source ref="id78" />
+<target ref="id78" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="5" y="-230">makeChoice?</label>
+<label kind="assignment" x="0" y="0"></label>
+</transition>
+</template>
+<template>
+<name>Async__channels</name>
+<parameter></parameter>
+<declaration>
+// Asynchronous relations:OBS_LowBattery/OBS_awake -&gt; TB_Applications/OBS_awake
+
+int size__TB_Applications__OBS_awake = 0;
+int head__TB_Applications__OBS_awake = 0;
+int tail__TB_Applications__OBS_awake = 0;
+
+void enqueue__TB_Applications__OBS_awake(){
+  tail__TB_Applications__OBS_awake = (tail__TB_Applications__OBS_awake+1) %1;
+  size__TB_Applications__OBS_awake++;
+}
+
+void dequeue__TB_Applications__OBS_awake(){
+  head__TB_Applications__OBS_awake = (head__TB_Applications__OBS_awake+1) %1;
+  size__TB_Applications__OBS_awake--;
+}
+
+// Asynchronous relations:OBS_LowBattery/OBS_temperature -&gt; Temperature_Reader/OBS_temperature
+
+int size__Temperature_Reader__OBS_temperature = 0;
+int head__Temperature_Reader__OBS_temperature = 0;
+int tail__Temperature_Reader__OBS_temperature = 0;
+int list__Temperature_Reader__OBS_temperature_0[1];
+
+void enqueue__Temperature_Reader__OBS_temperature(){
+  list__Temperature_Reader__OBS_temperature_0[tail__Temperature_Reader__OBS_temperature] = actionint__0;
+  tail__Temperature_Reader__OBS_temperature = (tail__Temperature_Reader__OBS_temperature+1) %1;
+  size__Temperature_Reader__OBS_temperature++;
+}
+
+void dequeue__Temperature_Reader__OBS_temperature(){
+  actionint__0 = list__Temperature_Reader__OBS_temperature_0[head__Temperature_Reader__OBS_temperature] ;
+  head__Temperature_Reader__OBS_temperature = (head__Temperature_Reader__OBS_temperature+1) %1;
+  size__Temperature_Reader__OBS_temperature--;
+}
+</declaration>
+<location id="id79" x="0" y="-220">
+<name x="10" y="-215">id79</name>
+</location>
+<init ref="id79" />
+<transition>
+<source ref="id79" />
+<target ref="id79" />
+<label kind="guard" x="0" y="-240">size__TB_Applications__OBS_awake &lt;1</label>
+<label kind="synchronisation" x="5" y="-230">TB_Applications_OBS_awake__wr?</label>
+<label kind="assignment" x="10" y="-220">enqueue__TB_Applications__OBS_awake()</label>
+</transition>
+<transition>
+<source ref="id79" />
+<target ref="id79" />
+<label kind="guard" x="0" y="-240">size__TB_Applications__OBS_awake&gt; 0</label>
+<label kind="synchronisation" x="5" y="-230">OBS_LowBattery_OBS_awake__rd!</label>
+<label kind="assignment" x="10" y="-220">dequeue__TB_Applications__OBS_awake()</label>
+</transition>
+<transition>
+<source ref="id79" />
+<target ref="id79" />
+<label kind="guard" x="0" y="-240">size__TB_Applications__OBS_awake ==1</label>
+<label kind="synchronisation" x="5" y="-230">TB_Applications_OBS_awake__wr?</label>
+<label kind="assignment" x="10" y="-220">dequeue__TB_Applications__OBS_awake(),
+ enqueue__TB_Applications__OBS_awake()</label>
+</transition>
+<transition>
+<source ref="id79" />
+<target ref="id79" />
+<label kind="guard" x="0" y="-240">size__Temperature_Reader__OBS_temperature &lt;1</label>
+<label kind="synchronisation" x="5" y="-230">Temperature_Reader_OBS_temperature__wr?</label>
+<label kind="assignment" x="10" y="-220">enqueue__Temperature_Reader__OBS_temperature()</label>
+</transition>
+<transition>
+<source ref="id79" />
+<target ref="id79" />
+<label kind="guard" x="0" y="-240">size__Temperature_Reader__OBS_temperature&gt; 0</label>
+<label kind="synchronisation" x="5" y="-230">OBS_LowBattery_OBS_temperature__rd!</label>
+<label kind="assignment" x="10" y="-220">dequeue__Temperature_Reader__OBS_temperature()</label>
+</transition>
+<transition>
+<source ref="id79" />
+<target ref="id79" />
+<label kind="guard" x="0" y="-240">size__Temperature_Reader__OBS_temperature ==1</label>
+<label kind="synchronisation" x="5" y="-230">Temperature_Reader_OBS_temperature__wr?</label>
+<label kind="assignment" x="10" y="-220">dequeue__Temperature_Reader__OBS_temperature(),
+ enqueue__Temperature_Reader__OBS_temperature()</label>
+</transition>
+</template>
+<system>
+//Instanciation 
+TB_Applications__0 = TB_Applications();
+TB_OS__1 = TB_OS();
+Battery_Reader__2 = Battery_Reader();
+Main_Controller__3 = Main_Controller();
+Temperature_Reader__4 = Temperature_Reader();
+TB_BatteryDriver__5 = TB_BatteryDriver();
+TB_TemperatureDriver__6 = TB_TemperatureDriver();
+Timer__primary_timer__7 = Timer__primary_timer();
+Timer__watchdog_timer__8 = Timer__watchdog_timer();
+Nonsync__actions__9 = Nonsync__actions();
+Async__channels__10 = Async__channels();
+system TB_Applications__0,TB_OS__1,Battery_Reader__2,Main_Controller__3,Temperature_Reader__4,TB_BatteryDriver__5,TB_TemperatureDriver__6,Timer__primary_timer__7,Timer__watchdog_timer__8,Nonsync__actions__9,Async__channels__10;</system>
+</nta>
