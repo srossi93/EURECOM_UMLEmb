@@ -1,0 +1,920 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<nta>
+<declaration>
+//Global declarations
+
+//Declarations used for non synchronized gates
+urgent chan makeChoice;
+urgent chan InternalStorage__Incremental_video_creator;
+urgent chan MotionDetection__Detect_motion;
+
+//Declarations for asynchronous channels
+urgent chan WebServer_send_configuration_status__wr;
+urgent chan InternalStorage_receive_status__rd;
+urgent chan InternalStorage_send_video_to_webserver__wr;
+urgent chan WebServer_receive_video_from_storage__rd;
+urgent chan CameraManager_save_image__wr;
+urgent chan InternalStorage_receive_image__rd;
+
+//Declarations for synchronous channels
+urgent chan WebServer_connect__TB_Ethernet_connect;
+urgent chan WebServer_configure__TB_Ethernet_configure;
+urgent chan WebServer_disconnect__TB_Ethernet_disconnect;
+urgent chan WebServer_new_request__TB_Ethernet_new_request;
+urgent chan WebServer_stream_video_request__TB_Ethernet_stream_video_request;
+urgent chan WebServer_send_video__TB_Ethernet_receive_video;
+urgent chan WebServer_send_email__TB_Ethernet_receive_email;
+urgent chan MotionDetection_motion_detected__WebServer_motion_detected;
+urgent chan InternalStorage_send_video_to_motion_detector__MotionDetection_received_video;
+urgent chan TB_Camera_send_images__CameraManager_receive_image;
+urgent chan LightManager_enable_LEDs__TB_IRLEDs_enable_LED;
+urgent chan LightManager_light_sensor__TB_LightSensor_light_sensor;
+
+// Global parameters for method calls and signal exchange
+int actionint__0;
+int actionint__1;
+int actionbool__0;
+
+
+int min(int x, int y) {
+  if(x&lt;y) {
+    return x;
+  }
+  return y;
+}
+
+int max(int x, int y) {
+  if(x&lt;y) {
+    return y;
+  }
+  return x;
+}
+</declaration>
+<template>
+<name>TB_LightSensor</name>
+<parameter></parameter>
+<declaration>int light_value = 0;
+clock h__;
+</declaration>
+<location id="id0" x="-100" y="30">
+<name x="-90" y="35">id0</name>
+<committed />
+</location>
+<location id="id1" x="5" y="-150">
+<name x="15" y="-145">id1</name>
+<committed />
+</location>
+<location id="id2" x="10" y="-80">
+<name x="20" y="-75">id2</name>
+</location>
+<location id="id3" x="15" y="-10">
+<name x="25" y="-5">id3</name>
+<committed />
+</location>
+<location id="id4" x="20" y="60">
+<name x="30" y="65">id4</name>
+<label kind="invariant"  x="25" y="75">(h__ &lt;= (1000))</label>
+</location>
+<init ref="id0" />
+<transition>
+<source ref="id0" />
+<target ref="id1" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="-37" y="-185">light_value=0</label>
+<nail x="-69" y="-192" />
+</transition>
+<transition>
+<source ref="id1" />
+<target ref="id1" />
+<label kind="guard" x="5" y="-170">light_value&lt;100</label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="15" y="-150">light_value=light_value+1</label>
+<nail x="-45" y="-200" />
+<nail x="-35" y="-165" />
+</transition>
+<transition>
+<source ref="id1" />
+<target ref="id2" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="-3" y="-118" />
+</transition>
+<transition>
+<source ref="id2" />
+<target ref="id3" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="17" y="-55">LightManager_light_sensor__TB_LightSensor_light_sensor!</label>
+<label kind="assignment" x="22" y="-45">actionint__0 = light_value</label>
+<nail x="4" y="-63" />
+</transition>
+<transition>
+<source ref="id3" />
+<target ref="id4" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="27" y="25">h__ = 0</label>
+<nail x="11" y="44" />
+</transition>
+<transition>
+<source ref="id4" />
+<target ref="id0" />
+<label kind="guard" x="22" y="75">(h__ &gt;= (1000))</label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="20" y="92" />
+</transition>
+</template>
+<template>
+<name>TB_IRLEDs</name>
+<parameter></parameter>
+<declaration>clock h__;
+</declaration>
+<location id="id6" x="-100" y="-220">
+<name x="-90" y="-215">id6</name>
+</location>
+<init ref="id6" />
+<transition>
+<source ref="id6" />
+<target ref="id6" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="-42" y="-195">LightManager_enable_LEDs__TB_IRLEDs_enable_LED?</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="-35" y="-209" />
+</transition>
+</template>
+<template>
+<name>TB_Camera</name>
+<parameter></parameter>
+<declaration>int frame__pixel_value = 0;
+clock h__;
+</declaration>
+<location id="id8" x="-100" y="0">
+<name x="-90" y="5">id8</name>
+<committed />
+</location>
+<location id="id9" x="5" y="-150">
+<name x="15" y="-145">id9</name>
+<label kind="invariant"  x="10" y="-135">h__ &lt;= 40</label>
+</location>
+<location id="id11" x="165" y="-10">
+<name x="175" y="-5">id11</name>
+</location>
+<init ref="id8" />
+<transition>
+<source ref="id8" />
+<target ref="id9" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="-37" y="-185">h__ = 0</label>
+<nail x="-62" y="-166" />
+</transition>
+<transition>
+<source ref="id9" />
+<target ref="id11" />
+<label kind="guard" x="85" y="-100">h__ &gt;= 40</label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="80" y="-65" />
+</transition>
+<transition>
+<source ref="id11" />
+<target ref="id8" />
+<label kind="guard" x="167" y="5"></label>
+<label kind="synchronisation" x="172" y="15">TB_Camera_send_images__CameraManager_receive_image!</label>
+<label kind="assignment" x="177" y="25">actionint__0 = frame__pixel_value</label>
+<nail x="183" y="42" />
+</transition>
+</template>
+<template>
+<name>TB_Ethernet</name>
+<parameter></parameter>
+<declaration>int video__Image = 0;
+int email__text = 0;
+int serial = 1;
+clock h__;
+</declaration>
+<location id="id13" x="-100" y="100">
+<name x="-90" y="105">id13</name>
+</location>
+<location id="id14" x="5" y="-150">
+<name x="15" y="-145">id14</name>
+</location>
+<location id="id15" x="10" y="-80">
+<name x="20" y="-75">id15</name>
+</location>
+<location id="id16" x="15" y="-10">
+<name x="25" y="-5">id16</name>
+</location>
+<location id="id17" x="20" y="60">
+<name x="30" y="65">id17</name>
+</location>
+<location id="id18" x="25" y="130">
+<name x="35" y="135">id18</name>
+</location>
+<location id="id19" x="30" y="200">
+<name x="40" y="205">id19</name>
+</location>
+<init ref="id13" />
+<transition>
+<source ref="id13" />
+<target ref="id14" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="-42" y="-195">WebServer_new_request__TB_Ethernet_new_request!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="-70" y="-161" />
+</transition>
+<transition>
+<source ref="id14" />
+<target ref="id15" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="12" y="-125">WebServer_configure__TB_Ethernet_configure!</label>
+<label kind="assignment" x="17" y="-115">actionint__0 = serial</label>
+<nail x="14" y="-138" />
+</transition>
+<transition>
+<source ref="id15" />
+<target ref="id16" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="17" y="-55">WebServer_new_request__TB_Ethernet_new_request!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="1" y="-29" />
+</transition>
+<transition>
+<source ref="id16" />
+<target ref="id17" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="22" y="15">WebServer_connect__TB_Ethernet_connect!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="9" y="17" />
+</transition>
+<transition>
+<source ref="id17" />
+<target ref="id18" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="27" y="85">WebServer_new_request__TB_Ethernet_new_request!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="-3" y="88" />
+</transition>
+<transition>
+<source ref="id18" />
+<target ref="id19" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="32" y="155">WebServer_disconnect__TB_Ethernet_disconnect!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="7" y="161" />
+</transition>
+</template>
+<template>
+<name>Foscam_Webcam</name>
+<parameter></parameter>
+<declaration>int serial = 15976;
+bool configuration_status = false;
+bool connection_status = false;
+clock h__;
+</declaration>
+<location id="id20" x="-100" y="-220">
+<name x="-90" y="-215">id20</name>
+</location>
+<init ref="id20" />
+</template>
+<template>
+<name>LightManager</name>
+<parameter></parameter>
+<declaration>int light_value = 0;
+int threashold = 50;
+clock h__;
+</declaration>
+<location id="id21" x="-100" y="0">
+<name x="-90" y="5">id21</name>
+</location>
+<location id="id22" x="5" y="-150">
+<name x="15" y="-145">id22</name>
+</location>
+<init ref="id21" />
+<transition>
+<source ref="id21" />
+<target ref="id22" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="-42" y="-195">LightManager_light_sensor__TB_LightSensor_light_sensor?</label>
+<label kind="assignment" x="-37" y="-185">light_value = actionint__0</label>
+<nail x="-61" y="-190" />
+</transition>
+<transition>
+<source ref="id22" />
+<target ref="id21" />
+<label kind="guard" x="7" y="-135">not(( light_value &lt; threashold ))</label>
+<label kind="synchronisation" x="12" y="-125">makeChoice!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="2" y="-124" />
+</transition>
+<transition>
+<source ref="id22" />
+<target ref="id21" />
+<label kind="guard" x="10" y="-100">light_value &lt; threashold</label>
+<label kind="synchronisation" x="15" y="-90">LightManager_enable_LEDs__TB_IRLEDs_enable_LED!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="8" y="-79" />
+</transition>
+</template>
+<template>
+<name>InternalStorage</name>
+<parameter></parameter>
+<declaration>int frame__pixel_value = 0;
+int internal_video__Image = 0;
+int number_frames = 0;
+bool configuration_status = false;
+clock h__;
+</declaration>
+<location id="id25" x="-100" y="205">
+<name x="-90" y="210">id25</name>
+</location>
+<location id="id26" x="5" y="-150">
+<name x="15" y="-145">id26</name>
+</location>
+<location id="id28" x="15" y="-10">
+<name x="25" y="-5">id28</name>
+</location>
+<location id="id29" x="20" y="60">
+<name x="30" y="65">id29</name>
+<committed />
+</location>
+<location id="id30" x="25" y="130">
+<name x="35" y="135">id30</name>
+</location>
+<location id="id31" x="30" y="200">
+<name x="40" y="205">id31</name>
+</location>
+<location id="id32" x="35" y="270">
+<name x="45" y="275">id32</name>
+</location>
+<location id="id33" x="40" y="340">
+<name x="50" y="345">id33</name>
+</location>
+<location id="id34" x="45" y="410">
+<name x="55" y="415">id34</name>
+<committed />
+</location>
+<init ref="id25" />
+<transition>
+<source ref="id25" />
+<target ref="id26" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="-42" y="-195">InternalStorage_receive_status__rd?</label>
+<label kind="assignment" x="-37" y="-185">configuration_status = actionbool__0</label>
+<nail x="-33" y="-167" />
+</transition>
+<transition>
+<source ref="id26" />
+<target ref="id25" />
+<label kind="guard" x="7" y="-135">not(( configuration_status ))</label>
+<label kind="synchronisation" x="12" y="-125">makeChoice!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="11" y="-107" />
+</transition>
+<transition>
+<source ref="id26" />
+<target ref="id28" />
+<label kind="guard" x="10" y="-100">configuration_status</label>
+<label kind="synchronisation" x="15" y="-90">makeChoice!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="-5" y="-99" />
+</transition>
+<transition>
+<source ref="id28" />
+<target ref="id29" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="22" y="15">InternalStorage_receive_image__rd?</label>
+<label kind="assignment" x="27" y="25">frame__pixel_value = actionint__0</label>
+<nail x="-8" y="3" />
+</transition>
+<transition>
+<source ref="id29" />
+<target ref="id30" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="32" y="95">number_frames = number_frames + 1</label>
+<nail x="37" y="94" />
+</transition>
+<transition>
+<source ref="id30" />
+<target ref="id31" />
+<label kind="guard" x="27" y="145">number_frames == 25</label>
+<label kind="synchronisation" x="32" y="155">makeChoice!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="13" y="153" />
+</transition>
+<transition>
+<source ref="id31" />
+<target ref="id32" />
+<label kind="guard" x="32" y="215"></label>
+<label kind="synchronisation" x="37" y="225">InternalStorage__Incremental_video_creator!</label>
+<label kind="assignment" x="42" y="235">actionint__0 =frame__pixel_value,
+actionint__1 =internal_video__Image</label>
+<nail x="21" y="231" />
+</transition>
+<transition>
+<source ref="id32" />
+<target ref="id33" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="42" y="295">InternalStorage_send_video_to_motion_detector__MotionDetection_received_video!</label>
+<label kind="assignment" x="47" y="305">actionint__0 = internal_video__Image</label>
+<nail x="37" y="316" />
+</transition>
+<transition>
+<source ref="id33" />
+<target ref="id34" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="47" y="365">InternalStorage_send_video_to_webserver__wr!</label>
+<label kind="assignment" x="52" y="375">actionint__0 = internal_video__Image</label>
+<nail x="53" y="350" />
+</transition>
+<transition>
+<source ref="id34" />
+<target ref="id25" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="57" y="445">number_frames = 0</label>
+<nail x="37" y="463" />
+</transition>
+<transition>
+<source ref="id30" />
+<target ref="id26" />
+<label kind="guard" x="40" y="320">number_frames &lt; 25</label>
+<label kind="synchronisation" x="45" y="330">makeChoice!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="52" y="333" />
+</transition>
+</template>
+<template>
+<name>CameraManager</name>
+<parameter></parameter>
+<declaration>int frame__pixel_value = 0;
+clock h__;
+</declaration>
+<location id="id37" x="-100" y="0">
+<name x="-90" y="5">id37</name>
+</location>
+<location id="id38" x="5" y="-150">
+<name x="15" y="-145">id38</name>
+</location>
+<init ref="id37" />
+<transition>
+<source ref="id37" />
+<target ref="id38" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="-42" y="-195">TB_Camera_send_images__CameraManager_receive_image?</label>
+<label kind="assignment" x="-37" y="-185">frame__pixel_value = actionint__0</label>
+<nail x="-54" y="-186" />
+</transition>
+<transition>
+<source ref="id38" />
+<target ref="id37" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="12" y="-125">CameraManager_save_image__wr!</label>
+<label kind="assignment" x="17" y="-115">actionint__0 = frame__pixel_value</label>
+<nail x="-11" y="-99" />
+</transition>
+</template>
+<template>
+<name>WebServer</name>
+<parameter></parameter>
+<declaration>bool configuration_status = false;
+bool connection_status = false;
+int serial = 1;
+int frame__pixel_value = 0;
+int QR_id = 0;
+int video__Image = 0;
+int email__text = 0;
+clock h__;
+</declaration>
+<location id="id40" x="-100" y="520">
+<name x="-90" y="525">id40</name>
+</location>
+<location id="id41" x="5" y="-150">
+<name x="15" y="-145">id41</name>
+</location>
+<location id="id42" x="10" y="-80">
+<name x="20" y="-75">id42</name>
+<committed />
+</location>
+<location id="id44" x="20" y="60">
+<name x="30" y="65">id44</name>
+</location>
+<location id="id45" x="25" y="130">
+<name x="35" y="135">id45</name>
+</location>
+<location id="id46" x="30" y="200">
+<name x="40" y="205">id46</name>
+</location>
+<location id="id47" x="35" y="270">
+<name x="45" y="275">id47</name>
+<committed />
+</location>
+<location id="id49" x="45" y="410">
+<name x="55" y="415">id49</name>
+</location>
+<location id="id50" x="50" y="480">
+<name x="60" y="485">id50</name>
+</location>
+<location id="id52" x="60" y="620">
+<name x="70" y="625">id52</name>
+<committed />
+</location>
+<location id="id54" x="70" y="760">
+<name x="80" y="765">id54</name>
+</location>
+<location id="id55" x="75" y="830">
+<name x="85" y="835">id55</name>
+<committed />
+</location>
+<location id="id56" x="80" y="900">
+<name x="90" y="905">id56</name>
+</location>
+<location id="id58" x="90" y="1040">
+<name x="100" y="1045">id58</name>
+<committed />
+</location>
+<init ref="id40" />
+<transition>
+<source ref="id40" />
+<target ref="id41" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="-42" y="-195">MotionDetection_motion_detected__WebServer_motion_detected?</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="-70" y="-195" />
+</transition>
+<transition>
+<source ref="id41" />
+<target ref="id42" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="12" y="-125">WebServer_send_email__TB_Ethernet_receive_email!</label>
+<label kind="assignment" x="17" y="-115">actionint__0 = email__text</label>
+<nail x="-18" y="-140" />
+</transition>
+<transition>
+<source ref="id42" />
+<target ref="id40" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="2" y="-47" />
+</transition>
+<transition>
+<source ref="id40" />
+<target ref="id44" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="-35" y="-90">WebServer_new_request__TB_Ethernet_new_request?</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="-21" y="-88" />
+</transition>
+<transition>
+<source ref="id44" />
+<target ref="id45" />
+<label kind="guard" x="22" y="75">configuration_status</label>
+<label kind="synchronisation" x="27" y="85">makeChoice!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="3" y="82" />
+</transition>
+<transition>
+<source ref="id45" />
+<target ref="id46" />
+<label kind="guard" x="27" y="145">connection_status</label>
+<label kind="synchronisation" x="32" y="155">makeChoice!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="3" y="150" />
+</transition>
+<transition>
+<source ref="id46" />
+<target ref="id47" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="37" y="225">WebServer_disconnect__TB_Ethernet_disconnect?</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="41" y="217" />
+</transition>
+<transition>
+<source ref="id47" />
+<target ref="id40" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="47" y="305">connection_status = false</label>
+<nail x="17" y="300" />
+</transition>
+<transition>
+<source ref="id46" />
+<target ref="id49" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="42" y="295">WebServer_stream_video_request__TB_Ethernet_stream_video_request?</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="32" y="298" />
+</transition>
+<transition>
+<source ref="id49" />
+<target ref="id50" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="52" y="435">WebServer_receive_video_from_storage__rd?</label>
+<label kind="assignment" x="57" y="445">video__Image = actionint__0</label>
+<nail x="69" y="443" />
+</transition>
+<transition>
+<source ref="id50" />
+<target ref="id40" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="57" y="505">WebServer_send_video__TB_Ethernet_receive_video!</label>
+<label kind="assignment" x="62" y="515">actionint__0 = video__Image</label>
+<nail x="40" y="503" />
+</transition>
+<transition>
+<source ref="id45" />
+<target ref="id52" />
+<label kind="guard" x="42" y="355">! connection_status</label>
+<label kind="synchronisation" x="47" y="365">WebServer_connect__TB_Ethernet_connect?</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="51" y="378" />
+</transition>
+<transition>
+<source ref="id52" />
+<target ref="id40" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="72" y="655">connection_status = true</label>
+<nail x="69" y="649" />
+</transition>
+<transition>
+<source ref="id44" />
+<target ref="id54" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="50" y="400">WebServer_configure__TB_Ethernet_configure?</label>
+<label kind="assignment" x="55" y="410">QR_id = actionint__0</label>
+<nail x="68" y="415" />
+</transition>
+<transition>
+<source ref="id54" />
+<target ref="id55" />
+<label kind="guard" x="72" y="775">QR_id != serial</label>
+<label kind="synchronisation" x="77" y="785">makeChoice!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="54" y="785" />
+</transition>
+<transition>
+<source ref="id55" />
+<target ref="id56" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="87" y="865">configuration_status = false</label>
+<nail x="70" y="887" />
+</transition>
+<transition>
+<source ref="id56" />
+<target ref="id40" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="87" y="925">WebServer_send_configuration_status__wr!</label>
+<label kind="assignment" x="92" y="935">actionbool__0 = configuration_status</label>
+<nail x="75" y="957" />
+</transition>
+<transition>
+<source ref="id54" />
+<target ref="id58" />
+<label kind="guard" x="80" y="880">QR_id == serial</label>
+<label kind="synchronisation" x="85" y="890">makeChoice!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="79" y="916" />
+</transition>
+<transition>
+<source ref="id58" />
+<target ref="id56" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="0" y="0"></label>
+<label kind="assignment" x="102" y="1075">configuration_status = true</label>
+<nail x="83" y="1069" />
+</transition>
+</template>
+<template>
+<name>MotionDetection</name>
+<parameter></parameter>
+<declaration>int video__Image = 0;
+bool motion_detected = false;
+clock h__;
+</declaration>
+<location id="id60" x="-100" y="0">
+<name x="-90" y="5">id60</name>
+</location>
+<location id="id61" x="5" y="-150">
+<name x="15" y="-145">id61</name>
+<urgent />
+</location>
+<location id="id62" x="10" y="-80">
+<name x="20" y="-75">id62</name>
+</location>
+<init ref="id60" />
+<transition>
+<source ref="id60" />
+<target ref="id61" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="-42" y="-195">InternalStorage_send_video_to_motion_detector__MotionDetection_received_video?</label>
+<label kind="assignment" x="-37" y="-185">video__Image = actionint__0</label>
+<nail x="-36" y="-177" />
+</transition>
+<transition>
+<source ref="id61" />
+<target ref="id62" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="12" y="-125">MotionDetection__Detect_motion!</label>
+<label kind="assignment" x="17" y="-115">actionint__0 =video__Image</label>
+<nail x="2" y="-112" />
+</transition>
+<transition>
+<source ref="id62" />
+<target ref="id60" />
+<label kind="guard" x="12" y="-65">motion_detected</label>
+<label kind="synchronisation" x="17" y="-55">MotionDetection_motion_detected__WebServer_motion_detected!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="1" y="-55" />
+</transition>
+<transition>
+<source ref="id62" />
+<target ref="id60" />
+<label kind="guard" x="15" y="-30">not(( motion_detected ))</label>
+<label kind="synchronisation" x="20" y="-20">makeChoice!</label>
+<label kind="assignment" x="0" y="0"></label>
+<nail x="4" y="-11" />
+</transition>
+</template>
+<template>
+<name>Nonsync__actions</name>
+<parameter></parameter>
+<declaration></declaration>
+<location id="id65" x="0" y="-220">
+<name x="10" y="-215">id65</name>
+</location>
+<init ref="id65" />
+<transition>
+<source ref="id65" />
+<target ref="id65" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="5" y="-230">makeChoice?</label>
+<label kind="assignment" x="0" y="0"></label>
+</transition>
+<transition>
+<source ref="id65" />
+<target ref="id65" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="5" y="-230">InternalStorage__Incremental_video_creator?</label>
+<label kind="assignment" x="0" y="0"></label>
+</transition>
+<transition>
+<source ref="id65" />
+<target ref="id65" />
+<label kind="guard" x="0" y="0"></label>
+<label kind="synchronisation" x="5" y="-230">MotionDetection__Detect_motion?</label>
+<label kind="assignment" x="0" y="0"></label>
+</transition>
+</template>
+<template>
+<name>Async__channels</name>
+<parameter></parameter>
+<declaration>
+// Asynchronous relations:InternalStorage/send_configuration_status -&gt; WebServer/receive_status
+
+int size__WebServer__send_configuration_status = 0;
+int head__WebServer__send_configuration_status = 0;
+int tail__WebServer__send_configuration_status = 0;
+bool list__WebServer__send_configuration_status_0[1];
+
+void enqueue__WebServer__send_configuration_status(){
+  list__WebServer__send_configuration_status_0[tail__WebServer__send_configuration_status] = actionbool__0;
+  tail__WebServer__send_configuration_status = (tail__WebServer__send_configuration_status+1) %1;
+  size__WebServer__send_configuration_status++;
+}
+
+void dequeue__WebServer__send_configuration_status(){
+  actionbool__0 = list__WebServer__send_configuration_status_0[head__WebServer__send_configuration_status] ;
+  head__WebServer__send_configuration_status = (head__WebServer__send_configuration_status+1) %1;
+  size__WebServer__send_configuration_status--;
+}
+
+// Asynchronous relations:InternalStorage/send_video_to_webserver -&gt; WebServer/receive_video_from_storage
+
+int size__InternalStorage__send_video_to_webserver = 0;
+int head__InternalStorage__send_video_to_webserver = 0;
+int tail__InternalStorage__send_video_to_webserver = 0;
+int list__InternalStorage__send_video_to_webserver_0[1];
+
+void enqueue__InternalStorage__send_video_to_webserver(){
+  list__InternalStorage__send_video_to_webserver_0[tail__InternalStorage__send_video_to_webserver] = actionint__0;
+  tail__InternalStorage__send_video_to_webserver = (tail__InternalStorage__send_video_to_webserver+1) %1;
+  size__InternalStorage__send_video_to_webserver++;
+}
+
+void dequeue__InternalStorage__send_video_to_webserver(){
+  actionint__0 = list__InternalStorage__send_video_to_webserver_0[head__InternalStorage__send_video_to_webserver] ;
+  head__InternalStorage__send_video_to_webserver = (head__InternalStorage__send_video_to_webserver+1) %1;
+  size__InternalStorage__send_video_to_webserver--;
+}
+
+// Asynchronous relations:CameraManager/save_image -&gt; InternalStorage/receive_image
+
+int size__CameraManager__save_image = 0;
+int head__CameraManager__save_image = 0;
+int tail__CameraManager__save_image = 0;
+int list__CameraManager__save_image_0[30];
+
+void enqueue__CameraManager__save_image(){
+  list__CameraManager__save_image_0[tail__CameraManager__save_image] = actionint__0;
+  tail__CameraManager__save_image = (tail__CameraManager__save_image+1) %30;
+  size__CameraManager__save_image++;
+}
+
+void dequeue__CameraManager__save_image(){
+  actionint__0 = list__CameraManager__save_image_0[head__CameraManager__save_image] ;
+  head__CameraManager__save_image = (head__CameraManager__save_image+1) %30;
+  size__CameraManager__save_image--;
+}
+</declaration>
+<location id="id66" x="0" y="-220">
+<name x="10" y="-215">id66</name>
+</location>
+<init ref="id66" />
+<transition>
+<source ref="id66" />
+<target ref="id66" />
+<label kind="guard" x="0" y="-240">size__WebServer__send_configuration_status &lt;1</label>
+<label kind="synchronisation" x="5" y="-230">WebServer_send_configuration_status__wr?</label>
+<label kind="assignment" x="10" y="-220">enqueue__WebServer__send_configuration_status()</label>
+</transition>
+<transition>
+<source ref="id66" />
+<target ref="id66" />
+<label kind="guard" x="0" y="-240">size__WebServer__send_configuration_status&gt; 0</label>
+<label kind="synchronisation" x="5" y="-230">InternalStorage_receive_status__rd!</label>
+<label kind="assignment" x="10" y="-220">dequeue__WebServer__send_configuration_status()</label>
+</transition>
+<transition>
+<source ref="id66" />
+<target ref="id66" />
+<label kind="guard" x="0" y="-240">size__WebServer__send_configuration_status ==1</label>
+<label kind="synchronisation" x="5" y="-230">WebServer_send_configuration_status__wr?</label>
+<label kind="assignment" x="10" y="-220">dequeue__WebServer__send_configuration_status(),
+ enqueue__WebServer__send_configuration_status()</label>
+</transition>
+<transition>
+<source ref="id66" />
+<target ref="id66" />
+<label kind="guard" x="0" y="-240">size__InternalStorage__send_video_to_webserver &lt;1</label>
+<label kind="synchronisation" x="5" y="-230">InternalStorage_send_video_to_webserver__wr?</label>
+<label kind="assignment" x="10" y="-220">enqueue__InternalStorage__send_video_to_webserver()</label>
+</transition>
+<transition>
+<source ref="id66" />
+<target ref="id66" />
+<label kind="guard" x="0" y="-240">size__InternalStorage__send_video_to_webserver&gt; 0</label>
+<label kind="synchronisation" x="5" y="-230">WebServer_receive_video_from_storage__rd!</label>
+<label kind="assignment" x="10" y="-220">dequeue__InternalStorage__send_video_to_webserver()</label>
+</transition>
+<transition>
+<source ref="id66" />
+<target ref="id66" />
+<label kind="guard" x="0" y="-240">size__InternalStorage__send_video_to_webserver ==1</label>
+<label kind="synchronisation" x="5" y="-230">InternalStorage_send_video_to_webserver__wr?</label>
+<label kind="assignment" x="10" y="-220">dequeue__InternalStorage__send_video_to_webserver(),
+ enqueue__InternalStorage__send_video_to_webserver()</label>
+</transition>
+<transition>
+<source ref="id66" />
+<target ref="id66" />
+<label kind="guard" x="0" y="-240">size__CameraManager__save_image &lt;30</label>
+<label kind="synchronisation" x="5" y="-230">CameraManager_save_image__wr?</label>
+<label kind="assignment" x="10" y="-220">enqueue__CameraManager__save_image()</label>
+</transition>
+<transition>
+<source ref="id66" />
+<target ref="id66" />
+<label kind="guard" x="0" y="-240">size__CameraManager__save_image&gt; 0</label>
+<label kind="synchronisation" x="5" y="-230">InternalStorage_receive_image__rd!</label>
+<label kind="assignment" x="10" y="-220">dequeue__CameraManager__save_image()</label>
+</transition>
+<transition>
+<source ref="id66" />
+<target ref="id66" />
+<label kind="guard" x="0" y="-240">size__CameraManager__save_image ==30</label>
+<label kind="synchronisation" x="5" y="-230">CameraManager_save_image__wr?</label>
+<label kind="assignment" x="10" y="-220">dequeue__CameraManager__save_image(),
+ enqueue__CameraManager__save_image()</label>
+</transition>
+</template>
+<system>
+//Instanciation 
+TB_LightSensor__0 = TB_LightSensor();
+TB_IRLEDs__1 = TB_IRLEDs();
+TB_Camera__2 = TB_Camera();
+TB_Ethernet__3 = TB_Ethernet();
+LightManager__4 = LightManager();
+InternalStorage__5 = InternalStorage();
+CameraManager__6 = CameraManager();
+WebServer__7 = WebServer();
+MotionDetection__8 = MotionDetection();
+Nonsync__actions__9 = Nonsync__actions();
+Async__channels__10 = Async__channels();
+system TB_LightSensor__0,TB_IRLEDs__1,TB_Camera__2,TB_Ethernet__3,LightManager__4,InternalStorage__5,CameraManager__6,WebServer__7,MotionDetection__8,Nonsync__actions__9,Async__channels__10;</system>
+</nta>
